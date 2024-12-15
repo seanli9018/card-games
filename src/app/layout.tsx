@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer, Header } from "@/components";
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Great card games for party or when you get bored",
 };
 
+export const viewport: Viewport = { width: "device-width", initialScale: 1 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)] flex flex-col min-h-screen`}
       >
         <Header />
         {children}

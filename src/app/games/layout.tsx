@@ -1,4 +1,4 @@
-export default function MultiPlayersLayout({
+export default function GamesLayout({
   children,
 }: {
   children: React.ReactNode;

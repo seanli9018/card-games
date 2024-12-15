@@ -1,9 +1,16 @@
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        This is Home body
-      </main>
-    </div>
+    <main className="flex flex-col gap-8 items-center justify-center flex-1 max-w-screen-2xl mx-auto">
+      <h1 className="text-3xl font-extrabold text-center">
+        Welcome to the card games!!!
+      </h1>
+      <p>
+        Seems <span className="text-xl font-semibold">RANDOM</span>.
+      </p>
+      <p>
+        But it&apos;s actually{" "}
+        <span className="text-xl font-semibold">FATE</span>...
+      </p>
+    </main>
   );
 }
