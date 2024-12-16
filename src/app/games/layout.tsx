@@ -3,5 +3,9 @@ export default function GamesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return (
+    <main className="flex flex-col gap-8 items-center flex-1 max-w-screen-2xl mx-auto">
+      {children}
+    </main>
+  );
 }
