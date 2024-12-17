@@ -1,7 +1,11 @@
-import type { ReactElement } from "react";
-import type { VariantType } from "@/types";
+import type { ReactElement, ComponentPropsWithoutRef } from "react";
+import type { VariantType, ShapeType, SizeType, WidthType } from "@/types";
 
-export interface ButtonProps {
+export interface ButtonProps
+  extends Omit<ComponentPropsWithoutRef<"button">, "children"> {
   children: ReactElement | string;
-  variant: VariantType;
+  variant?: VariantType;
+  shape?: ShapeType;
+  size?: SizeType;
+  widthType?: WidthType;
 }
