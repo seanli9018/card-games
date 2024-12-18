@@ -1,15 +1,19 @@
 "use client";
 import clsx from "clsx";
-import { ButtonProps } from "./button.type";
+import Link from "next/link";
+import { ButtonType, LinkButtonProps, ButtonProps } from "./button.type";
 
-export default function Button({
-  children,
-  variant = "primary",
-  shape = "rectangle",
-  size = "regular",
-  widthType = "content",
-  ...restProps
-}: ButtonProps) {
+export default function Button(props: ButtonType) {
+  const {
+    children,
+    variant = "primary",
+    shape = "rectangle",
+    size = "regular",
+    widthType = "content",
+    buttonType = "button",
+    ...restProps
+  } = props;
+
   if (!children) return;
 
   const buttonStyles = clsx(
@@ -30,9 +34,23 @@ export default function Button({
     { "w-fit": widthType === "content", "w-full": widthType === "layout" },
     restProps.className
   );
+
+  if (buttonType === "link") {
+    const linkRestProps = restProps as LinkButtonProps;
+    return (
+      <Link
+        {...linkRestProps}
+        className={`py-1 px-4 font-semibold ${buttonStyles}`}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  const buttonRestProps = restProps as ButtonProps;
   return (
     <button
-      {...restProps}
+      {...buttonRestProps}
       className={`py-1 px-4 font-semibold ${buttonStyles}`}
     >
       {children}

@@ -10,17 +10,11 @@ export default function Page() {
           title="Yes or No?"
           description="Choose single card, and it will either tell you 'Yes' or 'No'"
           tags={["Single player", "Single device"]}
-          cta={{ children: "play", onClick: () => console.log("clicked") }}
+          cta={{ children: "play", href: "/games/yes-no", buttonType: "link" }}
         />
         <Tile
           title="Yes or No? Yes or No? Yes or No? Yes or No? Yes or No?"
           description="Choose single card, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No'"
-          tags={["Single player", "Single device"]}
-          cta={{ children: "play", onClick: () => console.log("clicked") }}
-        />
-        <Tile
-          title="Yes or No?"
-          description="Choose single card, and it will either tell you 'Yes' or 'No'"
           tags={["Single player", "Single device"]}
           cta={{ children: "play", onClick: () => console.log("clicked") }}
         />
