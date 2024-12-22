@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 
 export default function Header() {
   return (
@@ -9,11 +10,11 @@ export default function Header() {
           <li key="home" className="mr-4">
             <Link href="/">
               <Image
-                src="./vercel.svg"
+                src={LogoThumbnail}
                 width={30}
                 height={30}
                 alt="Home"
-                className="bg-slate-800"
+                className="bg-slate-800 rounded-full"
               />
             </Link>
           </li>
