@@ -1,13 +1,10 @@
 import { SubHeader, Card } from "@/components";
-
+// transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110
 export default function Page() {
   const cards = Array.from({ length: 2 }).map((_, index) => {
     return (
       <li key={`${index}`} className="flex-1 w-full block">
-        <Card
-          title="This is a card"
-          className="max-h-96 min-w-64 relative transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+        <Card content="This is a card" className="max-h-96 min-w-64" />
       </li>
     );
   });
