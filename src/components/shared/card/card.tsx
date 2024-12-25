@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, forwardRef } from "react";
-import { useSpring, animated, useSpringValue } from "@react-spring/web";
+import { useSpring, animated, useSpringRef, useChain } from "@react-spring/web";
 import clsx from "clsx";
 import type { CardProps } from "./card.type";
 import sty from "./card.module.scss";
@@ -9,25 +9,44 @@ import sty from "./card.module.scss";
 export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
   const { content = "", ...restProps } = props;
   const [revealCard, setRevealCard] = useState(false);
+
+  // card flipping;
+  const springRotateApi = useSpringRef();
   const { transform, opacity } = useSpring({
+    ref: springRotateApi,
     opacity: revealCard ? 1 : 0,
     transform: `rotateY(${revealCard ? 180 : 0}deg)`,
   });
-  const transition = useSpringValue("transform 600ms, opacity 800ms");
+
+  // card front zooming;
+  const springZoomApi = useSpringRef();
+  const { scale } = useSpring({
+    ref: springZoomApi,
+    config: { tension: 80, friction: 20 },
+    from: { scale: "1" },
+    to: {
+      scale: revealCard ? "1.5" : "1",
+    },
+  });
+
+  // 1. flipping spring --> zooming spring;
+  useChain([springRotateApi, springZoomApi]);
 
   const cardStyles = clsx(
-    `aspect-[5/7] cursor-pointer top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-    transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110`,
+    `aspect-[5/7] cursor-pointer top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`,
+    {
+      "transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110":
+        !revealCard,
+    },
     restProps.className,
     [sty.card]
   );
+
   const cardFrontStyles = clsx(
-    "border-2 border-slate-800 p-4 rounded-lg bg-slate-800",
+    "border-2 p-4 rounded-lg bg-gray-100 border-slate-200 text-neutral-900",
     [sty.cardFront]
   );
-  const cardBackStyles = clsx("border-2 border-slate-800 p-4 rounded-lg", [
-    sty.cardBack,
-  ]);
+  const cardBackStyles = clsx("p-4 rounded-lg", [sty.cardBack]);
 
   const clickHandler = () => {
     setRevealCard(true);
@@ -40,8 +59,8 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
         style={{
           opacity,
           transform: transform.to((t) => `${t} rotateY(180deg)`),
-          transition,
           backfaceVisibility: "hidden",
+          scale: scale,
         }}
       >
         {content}
@@ -50,7 +69,6 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
         className={cardBackStyles}
         style={{
           opacity: opacity.to((o) => 1 - o),
-          transition,
           backfaceVisibility: "hidden",
         }}
       />
