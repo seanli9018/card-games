@@ -33,7 +33,7 @@ export default function Button(props: ButtonType) {
         variant === "tertiary" && color === "regular",
       "bg-gray-600/75 text-white hover:bg-gray-600 focus:ring-gray-400":
         variant === "primary" && color === "monochromatic",
-      "bg-transparent hover:bg-gray-400/25 text-gray-600 hover:text-gray-800 border-gray-600 hover:border-gray-800 focus:ring-gray-400":
+      "bg-transparent hover:bg-gray-400/25 text-gray-600 hover:text-gray-800 dark:hover:text-gray-100 border-gray-600 hover:border-gray-800 focus:ring-gray-400":
         variant === "secondary" && color === "monochromatic",
       "bg-transparent hover:bg-gray-400/25 text-gray-600 hover:text-gray-400 focus:ring-gray-400":
         variant === "tertiary" && color === "monochromatic",

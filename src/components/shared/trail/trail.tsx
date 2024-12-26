@@ -1,7 +1,7 @@
 "use client";
 
 import { Children } from "react";
-import { useTrail, a } from "@react-spring/web";
+import { useTrail, animated } from "@react-spring/web";
 import { TrailProps } from "./trail.type";
 
 export default function Trail({
@@ -24,15 +24,15 @@ export default function Trail({
   return (
     <div {...restProps}>
       {trail.map(({ height, ...style }, index) => (
-        <a.div
+        <animated.div
           key={index}
           className="relative w-full will-change-transform overflow-hidden"
           style={{ height: itemHeight, ...style }}
         >
-          <a.div className="pr-2 overflow-hidden" style={{ height }}>
+          <animated.div className="pr-2 overflow-hidden" style={{ height }}>
             {items[index]}
-          </a.div>
-        </a.div>
+          </animated.div>
+        </animated.div>
       ))}
     </div>
   );

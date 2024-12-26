@@ -1,15 +1,35 @@
 import { SubHeader, Card } from "@/components";
-// transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110
+import { randomInArray } from "@/utils/randomUtil";
+import { GameTransition } from "@/components/shared";
+
+function CardContent({ text }: { text: string }) {
+  return (
+    <div className="h-full flex justify-center items-center">
+      <span>{text as string}</span>
+    </div>
+  );
+}
+
 export default function Page() {
+  const chosenItem = randomInArray(["YES", "NO"]) as string;
+
   const cards = Array.from({ length: 2 }).map((_, index) => {
     return (
       <li key={`${index}`} className="flex-1 w-full block">
-        <Card content="This is a card" className="max-h-96 min-w-64" />
+        <Card
+          content={<CardContent text={chosenItem} />}
+          className="max-h-96 min-w-64 text-4xl"
+        />
       </li>
     );
   });
+
   return (
     <>
+      <GameTransition
+        intro="Please recite the question silently in your mind..."
+        totalCountdown={5}
+      />
       <SubHeader title="Yes? or No?" />
       <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">
         <h2 className="font-semibold text-center">
