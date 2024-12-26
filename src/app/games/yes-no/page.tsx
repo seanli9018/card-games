@@ -1,5 +1,6 @@
 import { SubHeader, Card } from "@/components";
 import { randomInArray } from "@/utils/randomUtil";
+import { GameTransition } from "@/components/shared";
 
 function CardContent({ text }: { text: string }) {
   return (
@@ -22,8 +23,13 @@ export default function Page() {
       </li>
     );
   });
+
   return (
     <>
+      <GameTransition
+        intro="Please recite the question silently in your mind..."
+        totalCountdown={5}
+      />
       <SubHeader title="Yes? or No?" />
       <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">
         <h2 className="font-semibold text-center">

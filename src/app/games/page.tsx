@@ -11,7 +11,7 @@ export default function Page() {
           <div className=" grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <Tile
               title="Yes or No?"
-              description="Choose single card, and it will either tell you 'Yes' or 'No'"
+              description="Choose a card out of 2 cards, and it will either tell you 'Yes' or 'No'"
               tags={["Single player", "Single device"]}
               cta={{
                 children: "Play",
@@ -21,7 +21,7 @@ export default function Page() {
             />
             <Tile
               title="Yes or No? Yes or No? Yes or No? Yes or No? Yes or No?"
-              description="Choose single card, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No'"
+              description="Choose a card out of 2 cards, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No' Choose single card, and it will either tell you 'Yes' or 'No'"
               tags={["Single player", "Single device"]}
               cta={{ children: "Play", onClick: () => console.log("clicked") }}
             />
