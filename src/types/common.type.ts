@@ -3,3 +3,4 @@ export type ShapeType = "rectangle" | "round";
 export type SizeType = "small" | "regular" | "large";
 export type WidthType = "content" | "layout";
 export type Color = "regular" | "monochromatic";
+export type BreakpointType = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";

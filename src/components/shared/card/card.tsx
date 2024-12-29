@@ -7,7 +7,7 @@ import type { CardProps } from "./card.type";
 import sty from "./card.module.scss";
 
 export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
-  const { content = "", ...restProps } = props;
+  const { id, content = "", onSelectCommit, ...restProps } = props;
   const [revealCard, setRevealCard] = useState(false);
 
   // card flipping;
@@ -25,7 +25,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
     config: { tension: 80, friction: 20 },
     from: { scale: "1" },
     to: {
-      scale: revealCard ? "1.5" : "1",
+      scale: revealCard ? "1.2" : "1",
     },
   });
 
@@ -50,10 +50,17 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
 
   const clickHandler = () => {
     setRevealCard(true);
+    if (onSelectCommit) onSelectCommit(id);
   };
 
   return (
-    <div {...restProps} ref={ref} className={cardStyles} onClick={clickHandler}>
+    <div
+      id={id}
+      {...restProps}
+      ref={ref}
+      className={cardStyles}
+      onClick={clickHandler}
+    >
       <animated.div
         className={cardFrontStyles}
         style={{

@@ -53,7 +53,7 @@ export default function Button(props: ButtonType) {
     return (
       <Link
         {...linkRestProps}
-        className={`py-1 px-4 font-semibold ${buttonStyles}`}
+        className={`py-1 px-4 font-semibold inline-block ${buttonStyles}`}
       >
         {children}
       </Link>
