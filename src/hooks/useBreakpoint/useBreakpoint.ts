@@ -19,13 +19,19 @@ const getBreakpoint = (width: number) => {
 };
 
 const useBreakpoint = () => {
-  const [breakpoint, setBreakpoint] = useState(
-    getBreakpoint(window.innerWidth)
-  );
+  const [breakpoint, setBreakpoint] = useState(() => {
+    if (typeof window !== "undefined") {
+      return getBreakpoint(window.innerWidth);
+    }
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      setBreakpoint(getBreakpoint(window.innerWidth));
+      if (typeof window !== "undefined") {
+        // Safe to use window here
+        const breakpoint = getBreakpoint(window.innerWidth);
+        setBreakpoint(breakpoint);
+      }
     };
 
     window.addEventListener("resize", handleResize);
