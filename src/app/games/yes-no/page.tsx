@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { SubHeader, Card } from "@/components";
 import { randomInArray } from "@/utils/randomUtil";
 import { GameTransition } from "@/components/shared";
@@ -11,14 +13,30 @@ function CardContent({ text }: { text: string }) {
 }
 
 export default function Page() {
+  const [selectedCard, setSelectedCard] = useState("");
   const chosenItem = randomInArray(["YES", "NO"]) as string;
 
+  const handleCardSelect = (id?: string) => {
+    if (!id) return;
+    setSelectedCard(id);
+  };
+
   const cards = Array.from({ length: 2 }).map((_, index) => {
+    const displayStyle =
+      selectedCard && selectedCard !== `card-${index}` ? "none" : "block";
     return (
-      <li key={`${index}`} className="flex-1 w-full block">
+      <li
+        key={`${index}`}
+        className="flex-1 w-full block"
+        style={{
+          display: displayStyle,
+        }}
+      >
         <Card
+          id={`card-${index}`}
           content={<CardContent text={chosenItem} />}
           className="max-h-96 min-w-64 text-4xl"
+          onSelectCommit={handleCardSelect}
         />
       </li>
     );
