@@ -8,6 +8,7 @@ export default function GameTransition({
   intro,
   introDelay = 10,
   totalCountdown = 0,
+  reverse = false,
 }: GameTransitionProps) {
   const [countdown, setCountdown] = useState(totalCountdown);
   const [introTimeLeft, setIntroTimeLeft] = useState(introDelay);
@@ -62,7 +63,7 @@ export default function GameTransition({
   if (typeof intro === "string") {
     introElement = (
       <div className="text-4xl font-bold">
-        <Typing text={intro} fadeInOut reverse />
+        <Typing text={intro} fadeInOut reverse={reverse} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 "use client";
+
 import { Tile, Footer, Header } from "@/components";
 
 export default function Page() {
@@ -15,6 +16,16 @@ export default function Page() {
               cta={{
                 children: "Play",
                 href: "/games/yes-no",
+                buttonType: "link",
+              }}
+            />
+            <Tile
+              title="Bored No More"
+              description="Feeling bored? Pick a card from a set of random activity cards to liven things up!"
+              tags={["Single player", "Single device"]}
+              cta={{
+                children: "Play",
+                href: "/games/bored-no-more",
                 buttonType: "link",
               }}
             />
