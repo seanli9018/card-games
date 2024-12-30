@@ -47,6 +47,7 @@ export default function Page() {
       <GameTransition
         intro="Please recite the question silently in your mind..."
         totalCountdown={5}
+        reverse
       />
       <SubHeader title="Yes? or No?" />
       <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">

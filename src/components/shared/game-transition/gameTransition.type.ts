@@ -4,4 +4,5 @@ export interface GameTransitionProps {
   intro: string | ReactElement;
   introDelay?: number; //seconds
   totalCountdown?: number;
+  reverse?: boolean;
 }
