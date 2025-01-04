@@ -12,31 +12,41 @@ export default function Button(props: ButtonType) {
     color = "regular",
     widthType = "content",
     buttonType = "button",
+    disabled = false,
     ...restProps
   } = props;
 
   if (!children) return;
 
+  const _color = disabled ? "disabled" : color;
+
   const buttonStyles = clsx(
     {
       "focus:outline-none focus:ring-1 focus:ring-opacity-75":
-        variant === "primary" || variant === "tertiary",
+        (variant === "primary" && !disabled) ||
+        (variant === "tertiary" && !disabled),
       "border focus:outline-none focus:ring-1 focus:ring-opacity-75":
-        variant === "secondary",
+        variant === "secondary" && !disabled,
     },
     {
       "bg-sky-600/75 text-white hover:bg-sky-600 focus:ring-sky-400":
-        variant === "primary" && color === "regular",
+        variant === "primary" && _color === "regular",
       "bg-transparent hover:bg-sky-400/25 text-sky-600 hover:text-sky-800 border-sky-600 hover:border-sky-800 focus:ring-sky-400":
-        variant === "secondary" && color === "regular",
+        variant === "secondary" && _color === "regular",
       "bg-transparent hover:bg-sky-400/25 text-sky-600 hover:text-sky-400 focus:ring-sky-400":
-        variant === "tertiary" && color === "regular",
+        variant === "tertiary" && _color === "regular",
       "bg-gray-600/75 text-white hover:bg-gray-600 focus:ring-gray-400":
-        variant === "primary" && color === "monochromatic",
+        variant === "primary" && _color === "monochromatic",
       "bg-transparent hover:bg-gray-400/25 text-gray-600 hover:text-gray-800 dark:hover:text-gray-100 border-gray-600 hover:border-gray-800 focus:ring-gray-400":
-        variant === "secondary" && color === "monochromatic",
+        variant === "secondary" && _color === "monochromatic",
       "bg-transparent hover:bg-gray-400/25 text-gray-600 hover:text-gray-400 focus:ring-gray-400":
-        variant === "tertiary" && color === "monochromatic",
+        variant === "tertiary" && _color === "monochromatic",
+      "bg-gray-600/75 text-gray-200 cursor-default":
+        variant === "primary" && _color === "disabled",
+      "bg-transparent text-gray-600 border-gray-600 cursor-default":
+        variant === "secondary" && _color === "disabled",
+      "bg-transparent text-gray-600 cursor-default":
+        variant === "tertiary" && _color === "disabled",
     },
     { rounded: shape === "rectangle", "rounded-full": shape === "round" },
     {

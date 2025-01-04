@@ -15,10 +15,14 @@ export interface SharedButtonType {
   size?: SizeType;
   color?: Color;
   widthType?: WidthType;
+  disabled?: boolean;
 }
 
 export interface ButtonProps
-  extends Omit<ComponentPropsWithoutRef<"button">, "children" | "color">,
+  extends Omit<
+      ComponentPropsWithoutRef<"button">,
+      "children" | "color" | "disabled"
+    >,
     SharedButtonType {
   buttonType?: "button";
 }

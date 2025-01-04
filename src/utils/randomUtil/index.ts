@@ -1,1 +1,1 @@
-export { randomInArray } from "./randomUtil";
+export * from "./randomUtil";
