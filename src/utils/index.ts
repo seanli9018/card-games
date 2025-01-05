@@ -1,1 +1,2 @@
-export { logError } from "./logUtil";
+export * from "./logUtil";
+export * from "./randomUtil";
