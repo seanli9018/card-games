@@ -4,9 +4,14 @@ import { useState } from "react";
 import clsx from "clsx";
 import { Button } from "@/components";
 import { randomHexColor, randomRangeFromZero } from "@/utils";
-import { ListInputProps } from "./diy-shuffle-deck.type";
+import {
+  ListInputProps,
+  ListValueWithLinearStyle,
+  LinearStyle,
+} from "./listCreator.type";
+import style from "./listCreator.module.scss";
 
-function ListInput({ onChangeCommit, ...restProps }: ListInputProps) {
+function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
   const [inputValue, setInputValue] = useState("");
 
   const listContainerStyles = clsx(restProps.className);
@@ -88,41 +93,91 @@ function ListInput({ onChangeCommit, ...restProps }: ListInputProps) {
           </Button>
         </div>
       </div>
+      {error ? (
+        <span className="text-xs mt-1 text-red-600 dark:text-red-200">
+          {error}
+        </span>
+      ) : null}
     </div>
   );
 }
 
-export default function ListCreator() {
-  const [listSet, setListSet] = useState<Set<string>>(new Set());
+export default function ListCreator({
+  ...restProps
+}: React.ComponentPropsWithoutRef<"div">) {
+  const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>([]);
+  const [inputError, setInputError] = useState("");
 
-  const handleInputChangeCommit = (value: string) => {
-    setListSet((prevSet) => new Set([...prevSet, value]));
+  const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
+
+  const generateRandomListLinear: () => LinearStyle = () => {
+    return {
+      startColor: randomHexColor(),
+      endColor: randomHexColor(),
+      startPos: randomRangeFromZero(50)!,
+      endPos: randomRangeFromZero(50)! + 50,
+    };
   };
 
-  const handleListItemRemoval = (value: string) => {
-    setListSet((prevSet) => {
-      const newSet = new Set(prevSet);
-      newSet.delete(value); // Remove the value
-      return newSet;
+  const handleInputChangeCommit = (value: string) => {
+    const linearStyle = generateRandomListLinear();
+    setTaskList((prevList) => {
+      const duplicatedItemIndex = prevList.findIndex((item) => {
+        return item.value === value;
+      });
+      // Only add new value if no existing value.
+      if (duplicatedItemIndex < 0) {
+        setInputError("");
+        return [
+          ...prevList,
+          {
+            value,
+            ...linearStyle,
+          },
+        ];
+      }
+      // Otherwise return original list.
+      setInputError(`'${value}' is already existed in the activity list.`);
+      return prevList;
     });
   };
 
-  const listElements = Array.from(listSet).map((item, index) => {
-    const startColor = randomHexColor();
-    const endColor = randomHexColor();
-    const startPos = randomRangeFromZero(50);
-    const endPos = randomRangeFromZero(50)! + 50;
+  const handleListItemRemoval = (value: string) => {
+    setInputError("");
+    setTaskList((prevList) => {
+      const targetItemIndex = prevList.findIndex((item) => {
+        return item.value === value;
+      });
 
+      const newList = [
+        ...prevList.slice(0, targetItemIndex),
+        ...prevList.slice(targetItemIndex + 1),
+      ];
+      return newList;
+    });
+  };
+
+  const listElements = Array.from(taskList).map((item, index) => {
     return (
       <li
-        key={index}
+        key={`${index}-${item}`}
         className="h-10 pl-4 flex items-center justify-between text-xl font-semibold rounded-md"
         style={{
-          background: `linear-gradient(135deg, ${startColor} ${startPos}%, ${endColor} ${endPos}%)`,
+          background: `linear-gradient(
+            135deg, 
+            ${item.startColor} 
+            ${item.startPos}%, 
+            ${item.endColor} 
+            ${item.endPos}%
+          )`,
         }}
       >
-        {item}
-        <Button variant="tertiary" onClick={() => handleListItemRemoval(item)}>
+        <p className={style.listText}>{item.value}</p>
+        <Button
+          variant="tertiary"
+          onClick={() => handleListItemRemoval(item.value)}
+          className="text-gray-200"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -131,7 +186,18 @@ export default function ListCreator() {
             stroke="currentColor"
             className="size-6"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 12h14"
+              style={{
+                outline: `1px solid ${
+                  window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "#1f2937" //colors.gray.800
+                    : "#e5e7eb" //colors.gray.200
+                }`,
+              }}
+            />
           </svg>
         </Button>
       </li>
@@ -139,14 +205,26 @@ export default function ListCreator() {
   });
 
   return (
-    <section className="flex flex-col gap-8 items-stretch justify-center flex-1 max-w-screen-2xl mx-auto">
-      <h1>Please create your activity list.</h1>
-      {!!listSet.size ? (
+    <div {...restProps} className={listCreatorStyles}>
+      <h1 className="text-lg font-semibold">
+        Please create your activity list.
+      </h1>
+      {!!taskList.length ? (
         <ul className="flex flex-col gap-8 items-stretch justify-center">
           {listElements}
         </ul>
       ) : null}
-      <ListInput onChangeCommit={handleInputChangeCommit} />
-    </section>
+      <ListInput onChangeCommit={handleInputChangeCommit} error={inputError} />
+      <Button
+        variant="primary"
+        widthType="layout"
+        disabled={taskList.length === 0}
+        onClick={() => {
+          console.log("started...");
+        }}
+      >
+        Start Shuffle
+      </Button>
+    </div>
   );
 }

@@ -1,0 +1,11 @@
+.listText {
+  text-shadow: -1px -1px 0 theme("colors.gray.200"),
+    1px -1px 0 theme("colors.gray.200"), -1px 1px 0 theme("colors.gray.200"),
+    1px 1px 0 theme("colors.gray.200");
+}
+
+.dark .listText {
+  text-shadow: -1px -1px 0 theme("colors.gray.200"),
+    1px -1px 0 theme("colors.gray.800"), -1px 1px 0 theme("colors.gray.800"),
+    1px 1px 0 theme("colors.gray.800");
+}
