@@ -15,6 +15,7 @@ export default function Header() {
                 height={30}
                 alt="Home"
                 className="bg-slate-800 rounded-full"
+                aria-hidden
               />
             </Link>
           </li>

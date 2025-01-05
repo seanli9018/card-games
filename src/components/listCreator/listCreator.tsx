@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import { Button } from "@/components";
+import { Button, Notification } from "@/components";
 import { randomHexColor, randomRangeFromZero } from "@/utils";
+import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 import {
   ListInputProps,
   ListValueWithLinearStyle,
@@ -107,6 +108,7 @@ export default function ListCreator({
 }: React.ComponentPropsWithoutRef<"div">) {
   const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>([]);
   const [inputError, setInputError] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
 
   const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
 
@@ -220,11 +222,24 @@ export default function ListCreator({
         widthType="layout"
         disabled={taskList.length === 0}
         onClick={() => {
+          if (taskList.length === 1) {
+            setShowNotification(true);
+          }
           console.log("started...");
         }}
       >
-        Start Shuffle
+        I am ready
       </Button>
+      {showNotification ? (
+        <Notification
+          title="Notice"
+          message="At least 2 activities needed to start"
+          imageSrc={LogoThumbnail}
+          onClose={() => {
+            setShowNotification(false);
+          }}
+        />
+      ) : null}
     </div>
   );
 }
