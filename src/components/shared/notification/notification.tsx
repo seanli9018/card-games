@@ -26,14 +26,14 @@ export default function Notification({
           />
         ) : null}
         <div className="flex-1 space-y-2 py-1">
-          <div className="flex flex-row justify-between ">
-            {title ? (
-              <h3 className="text-md font-semibold leading-7">{title}</h3>
-            ) : null}
+          <div className="flex flex-row justify-between leading-6">
+            {title ? <h3 className="text-md font-semibold ">{title}</h3> : null}
             <Button
               variant="tertiary"
               size="small"
+              shape="round"
               className="text-gray-200 self-end"
+              style={{ padding: "2px" }}
               onClick={onClose}
             >
               <svg
