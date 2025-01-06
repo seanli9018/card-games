@@ -1,4 +1,6 @@
+import type { MouseEvent } from "react";
 import Image from "next/image";
+import clsx from "clsx";
 import Button from "../button";
 import type { NotificationProps } from "./notification.type";
 
@@ -7,13 +9,17 @@ export default function Notification({
   message = "",
   imageSrc,
   onClose,
+  ...restProps
 }: NotificationProps) {
-  return (
-    <div
-      className="border border-blue-300 bg-slate-200 dark:bg-slate-800 
+  const notificationContainer = clsx(
+    `border border-blue-300 bg-slate-200 dark:bg-slate-800 
     shadow rounded-md p-2 max-w-sm w-full mx-auto 
-    fixed top-20 right-5 z-50"
-    >
+    `,
+    restProps.className
+  );
+
+  return (
+    <div className={notificationContainer}>
       <div className="flex space-x-4">
         {imageSrc ? (
           <Image
@@ -34,7 +40,10 @@ export default function Notification({
               shape="round"
               className="text-gray-200 self-end"
               style={{ padding: "2px" }}
-              onClick={onClose}
+              onClick={(evt: MouseEvent) => {
+                evt.stopPropagation();
+                if (onClose) onClose();
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +61,6 @@ export default function Notification({
               </svg>
             </Button>
           </div>
-
           {message ? (
             <div className="space-y-3">
               <div className="text-sm">{message}</div>
