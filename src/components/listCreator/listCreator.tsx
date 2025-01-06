@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import clsx from "clsx";
-import { Button } from "@/components";
+import { Button, NotificationHub } from "@/components";
 import { randomHexColor, randomRangeFromZero } from "@/utils";
+import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 import {
   ListInputProps,
   ListValueWithLinearStyle,
   LinearStyle,
 } from "./listCreator.type";
+import type { AddNotificationCBFunction } from "../shared";
 import style from "./listCreator.module.scss";
 
 function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
@@ -108,6 +110,8 @@ export default function ListCreator({
   const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>([]);
   const [inputError, setInputError] = useState("");
 
+  const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
+
   const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
 
   const generateRandomListLinear: () => LinearStyle = () => {
@@ -155,6 +159,19 @@ export default function ListCreator({
       ];
       return newList;
     });
+  };
+
+  const handleReadyButtonClick = () => {
+    if (taskList.length === 1) {
+      addNotificationRef.current?.({
+        title: "Notice",
+        message: "At least 2 activities are needed to start.",
+        imageSrc: LogoThumbnail,
+      });
+      return;
+    }
+
+    console.log("started...");
   };
 
   const listElements = Array.from(taskList).map((item, index) => {
@@ -219,12 +236,18 @@ export default function ListCreator({
         variant="primary"
         widthType="layout"
         disabled={taskList.length === 0}
-        onClick={() => {
-          console.log("started...");
-        }}
+        onClick={handleReadyButtonClick}
       >
-        Start Shuffle
+        I am ready
       </Button>
+      {taskList.length === 1 ? (
+        <NotificationHub
+          timeout={5000}
+          addNotification={(addNotificationCB: AddNotificationCBFunction) => {
+            addNotificationRef.current = addNotificationCB;
+          }}
+        />
+      ) : null}
     </div>
   );
 }
