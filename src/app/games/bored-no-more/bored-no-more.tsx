@@ -63,7 +63,7 @@ export default function BoredNoMore() {
               ]}
             />
           }
-          className="max-h-96 min-w-64 text-xl"
+          className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl"
           onSelectCommit={handleCardSelect}
         />
       </li>
@@ -72,9 +72,11 @@ export default function BoredNoMore() {
 
   return (
     <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">
-      <h2 className="font-semibold text-center">
-        Now, it&apos;s Your Choice...
-      </h2>
+      {!selectedCard ? (
+        <h2 className="font-semibold text-center">
+          Now, it&apos;s Your Choice...
+        </h2>
+      ) : null}
       {!error && data ? (
         <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
           {cards}

@@ -6,6 +6,7 @@ import type { GameTransitionProps } from "./gameTransition.type";
 
 export default function GameTransition({
   intro,
+  children,
   introDelay = 10,
   totalCountdown = 0,
   reverse = false,
@@ -14,7 +15,7 @@ export default function GameTransition({
   const [introTimeLeft, setIntroTimeLeft] = useState(introDelay);
   const countdownRef = useRef(totalCountdown);
   const introTimeLeftRef = useRef(introDelay);
-  const isInVisible = introTimeLeft <= 0 && countdown <= 0;
+  const showChildren = introTimeLeft <= 0 && countdown <= 0;
 
   // Start with displaying intro text/content first.
   useEffect(() => {
@@ -68,15 +69,17 @@ export default function GameTransition({
     );
   }
 
-  // Hide game transition when both intro and countdown complete.
-  if (isInVisible) return null;
-
-  return (
-    <div className="fixed z-50 w-screen h-screen top-0 left-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 p-8">
-      {introTimeLeft > 0 ? <>{introElement}</> : null}
-      {introTimeLeft <= 0 && countdown > 0 ? (
-        <span className="text-8xl font-bold">{countdown}</span>
-      ) : null}
-    </div>
-  );
+  // if intro or count down is not complete, show game transition.
+  if (!showChildren) {
+    return (
+      <div className="fixed z-50 w-screen h-screen top-0 left-0 flex items-center justify-center bg-gray-200 dark:bg-gray-800 p-8">
+        {introTimeLeft > 0 ? <>{introElement}</> : null}
+        {introTimeLeft <= 0 && countdown > 0 ? (
+          <span className="text-8xl font-bold">{countdown}</span>
+        ) : null}
+      </div>
+    );
+  }
+  // else show children.
+  return <>{!!children && showChildren ? children : null}</>;
 }
