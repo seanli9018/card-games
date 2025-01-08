@@ -16,7 +16,7 @@ export default function NotificationHub({
     NotificationItemData[]
   >([]);
   // init map data for storing notification div elements.
-  const notificationRefMap = useMemo(() => new Map(), []);
+  const notificationRefMap = useMemo(() => new WeakMap(), []);
   // init weak map data for storing cancelled notification div elements as key, cancel fn as value.
   const notificationCancelMap = useMemo(() => new WeakMap(), []);
 
@@ -24,12 +24,6 @@ export default function NotificationHub({
     from: {
       opacity: 0,
       right: -300,
-      top: (item: NotificationItemData) =>
-        !notificationRefMap?.size
-          ? 20
-          : notificationRefMap.size *
-              (notificationRefMap?.get(item).offsetHeight + 10) +
-            20,
       life: "100%",
     },
     keys: (item) => item.key,
@@ -37,20 +31,12 @@ export default function NotificationHub({
       notificationCancelMap.set(item, cancel);
       await next({
         opacity: 1,
-        right: 10,
-        top:
-          notificationRefMap?.size *
-            (notificationRefMap?.get(item).offsetHeight + 10) +
-          20,
+        right: 0,
       });
       await next({ life: "0%" });
     },
     leave: [{ opacity: 0 }, { right: -300 }],
-    onStart: (item) => {
-      notificationRefMap.delete(item);
-    },
     onRest: (result, ctrl, item) => {
-      notificationRefMap.delete(item);
       setNotificationList((prevList) =>
         prevList.filter((i) => {
           return i.key !== item.key;
@@ -75,30 +61,34 @@ export default function NotificationHub({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return transitions(({ life, ...style }, item) => (
-    <animated.div
-      className="fixed top-20 right-5 z-50"
-      ref={(element: HTMLDivElement) => {
-        if (element) notificationRefMap.set(item, element);
-      }}
-      style={style}
-    >
-      <Notification
-        title={item.title}
-        message={item.message}
-        imageSrc={item.imageSrc}
-        onClose={() => {
-          if (notificationCancelMap.has(item) && life.get() !== "0%")
-            notificationCancelMap.get(item)();
-        }}
-      />
-      <animated.div
-        style={{
-          right: life,
-          backgroundImage: "linear-gradient(130deg, #00b4e6, #00f0e0)",
-        }}
-        className="absolute bottom-px left-0 h-1 rounded-b-md mx-px"
-      ></animated.div>
-    </animated.div>
-  ));
+  return (
+    <div className="fixed top-14 right-5 z-50">
+      {transitions(({ life, ...style }, item) => (
+        <animated.div
+          className="relative mt-4"
+          ref={(element: HTMLDivElement) => {
+            if (element) notificationRefMap.set(item, element);
+          }}
+          style={style}
+        >
+          <Notification
+            title={item.title}
+            message={item.message}
+            imageSrc={item.imageSrc}
+            onClose={() => {
+              if (notificationCancelMap.has(item) && life.get() !== "0%")
+                notificationCancelMap.get(item)();
+            }}
+          />
+          <animated.div
+            style={{
+              right: life,
+              backgroundImage: "linear-gradient(130deg, #00b4e6, #00f0e0)",
+            }}
+            className="absolute bottom-px left-0 h-1 rounded-b-md mx-px"
+          ></animated.div>
+        </animated.div>
+      ))}
+    </div>
+  );
 }
