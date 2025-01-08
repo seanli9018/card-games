@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { SubHeader, Card } from "@/components";
 import { randomInArray } from "@/utils/randomUtil";
-import { GameTransition } from "@/components/shared";
+import { GameTransition } from "@/components";
 
 function CardContent({ text }: { text: string }) {
   return (
@@ -35,7 +35,7 @@ export default function Page() {
         <Card
           id={`card-${index}`}
           content={<CardContent text={chosenItem} />}
-          className="max-h-96 min-w-64 text-4xl"
+          className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-4xl"
           onSelectCommit={handleCardSelect}
         />
       </li>
@@ -48,16 +48,19 @@ export default function Page() {
         intro="Please recite the question silently in your mind..."
         totalCountdown={5}
         reverse
-      />
-      <SubHeader title="Yes? or No?" />
-      <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">
-        <h2 className="font-semibold text-center">
-          Now, it&apos;s Your Choice...
-        </h2>
-        <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
-          {cards}
-        </ul>
-      </main>
+      >
+        <SubHeader title="Yes? or No?" />
+        <main className="w-full flex flex-col gap-4 items-center flex-1 pt-4 pb-8 px-16">
+          {!selectedCard ? (
+            <h2 className="font-semibold text-center">
+              Now, it&apos;s Your Choice...
+            </h2>
+          ) : null}
+          <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
+            {cards}
+          </ul>
+        </main>
+      </GameTransition>
     </>
   );
 }

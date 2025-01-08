@@ -1,14 +1,5 @@
-import { SubHeader } from "@/components";
-import ListCreator from "@/components/listCreator";
+import DIYShuffleDeck from "./diy-shuffle-deck";
 
 export default function Page() {
-  return (
-    <>
-      <SubHeader title="Create Your Activity List" />
-      <section className="flex flex-col justify-center flex-1 max-w-lg w-full mx-auto px-4 md:px-6">
-        <ListCreator />
-      </section>
-      {/* <DIYShuffleDeck /> */}
-    </>
-  );
+  return <DIYShuffleDeck />;
 }

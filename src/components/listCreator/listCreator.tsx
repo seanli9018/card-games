@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import clsx from "clsx";
-import { Button, NotificationHub } from "@/components";
+import { Button } from "@/components";
 import { randomHexColor, randomRangeFromZero } from "@/utils";
-import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 import {
   ListInputProps,
   ListValueWithLinearStyle,
   LinearStyle,
+  ListCreatorProps,
 } from "./listCreator.type";
-import type { AddNotificationCBFunction } from "../shared";
+
 import style from "./listCreator.module.scss";
 
 function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
@@ -19,8 +19,8 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
   const listContainerStyles = clsx(restProps.className);
 
   const handleChangeCommit = () => {
-    if (!inputValue) return;
-    if (onChangeCommit) onChangeCommit(inputValue);
+    if (!inputValue.trim()) return;
+    if (onChangeCommit) onChangeCommit(inputValue.trim());
     setInputValue("");
   };
 
@@ -105,12 +105,12 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
 }
 
 export default function ListCreator({
+  commitBtnLabel = "",
+  onCommitBtnClick,
   ...restProps
-}: React.ComponentPropsWithoutRef<"div">) {
+}: ListCreatorProps) {
   const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>([]);
   const [inputError, setInputError] = useState("");
-
-  const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
 
   const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
 
@@ -161,17 +161,8 @@ export default function ListCreator({
     });
   };
 
-  const handleReadyButtonClick = () => {
-    if (taskList.length === 1) {
-      addNotificationRef.current?.({
-        title: "Notice",
-        message: "At least 2 activities are needed to start.",
-        imageSrc: LogoThumbnail,
-      });
-      return;
-    }
-
-    console.log("started...");
+  const handleCommitButtonClick = () => {
+    if (onCommitBtnClick) onCommitBtnClick(taskList);
   };
 
   const listElements = Array.from(taskList).map((item, index) => {
@@ -232,21 +223,15 @@ export default function ListCreator({
         </ul>
       ) : null}
       <ListInput onChangeCommit={handleInputChangeCommit} error={inputError} />
-      <Button
-        variant="primary"
-        widthType="layout"
-        disabled={taskList.length === 0}
-        onClick={handleReadyButtonClick}
-      >
-        I am ready
-      </Button>
-      {taskList.length === 1 ? (
-        <NotificationHub
-          timeout={5000}
-          addNotification={(addNotificationCB: AddNotificationCBFunction) => {
-            addNotificationRef.current = addNotificationCB;
-          }}
-        />
+      {commitBtnLabel ? (
+        <Button
+          variant="primary"
+          widthType="layout"
+          disabled={taskList.length === 0}
+          onClick={handleCommitButtonClick}
+        >
+          I am ready
+        </Button>
       ) : null}
     </div>
   );

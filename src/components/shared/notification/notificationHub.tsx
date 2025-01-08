@@ -35,7 +35,10 @@ export default function NotificationHub({
       });
       await next({ life: "0%" });
     },
-    leave: [{ opacity: 0 }, { right: -300 }],
+    leave: (item) => ({
+      right: -(notificationRefMap.get(item).offsetWidth + 20),
+      opacity: 0,
+    }),
     onRest: (result, ctrl, item) => {
       setNotificationList((prevList) =>
         prevList.filter((i) => {
