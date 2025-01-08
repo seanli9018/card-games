@@ -2,10 +2,10 @@
   text-shadow: -1px -1px 0 theme("colors.gray.200"),
     1px -1px 0 theme("colors.gray.200"), -1px 1px 0 theme("colors.gray.200"),
     1px 1px 0 theme("colors.gray.200");
-}
 
-.dark .listText {
-  text-shadow: -1px -1px 0 theme("colors.gray.900"),
-    1px -1px 0 theme("colors.gray.900"), -1px 1px 0 theme("colors.gray.900"),
-    1px 1px 0 theme("colors.gray.900");
+  @media (prefers-color-scheme: dark) {
+    text-shadow: -1px -1px 0 theme("colors.gray.900"),
+      1px -1px 0 theme("colors.gray.900"), -1px 1px 0 theme("colors.gray.900"),
+      1px 1px 0 theme("colors.gray.900");
+  }
 }
