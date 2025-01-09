@@ -17,7 +17,8 @@ export interface ListInputProps extends React.ComponentPropsWithoutRef<"div"> {
 }
 
 export interface ListCreatorProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "header"> {
+  header?: string | ReactElement;
   commitBtnLabel?: string | ReactElement;
   onCommitBtnClick?: (taskList: ListValueWithLinearStyle[]) => void;
 }

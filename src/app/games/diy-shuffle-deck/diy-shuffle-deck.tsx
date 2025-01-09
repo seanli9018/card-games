@@ -84,6 +84,7 @@ export default function DIYShuffleDeck() {
           <>
             <section className="flex flex-col justify-center flex-1 max-w-lg w-full mx-auto px-4 md:px-6">
               <ListCreator
+                header="Please create your activity list."
                 commitBtnLabel="I am ready"
                 onCommitBtnClick={handleListCreatorCommit}
               />

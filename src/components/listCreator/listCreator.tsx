@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { isValidElement, useState } from "react";
 import clsx from "clsx";
 import { Button } from "@/components";
 import { randomHexColor, randomRangeFromZero } from "@/utils";
@@ -105,6 +105,7 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
 }
 
 export default function ListCreator({
+  header = "",
   commitBtnLabel = "",
   onCommitBtnClick,
   ...restProps
@@ -165,6 +166,13 @@ export default function ListCreator({
     if (onCommitBtnClick) onCommitBtnClick(taskList);
   };
 
+  const listCreatorHeader =
+    typeof header === "string" ? (
+      <h1 className="text-lg font-semibold">{header}</h1>
+    ) : isValidElement(header) ? (
+      header
+    ) : null;
+
   const listElements = Array.from(taskList).map((item, index) => {
     return (
       <li
@@ -214,9 +222,7 @@ export default function ListCreator({
 
   return (
     <div {...restProps} className={listCreatorStyles}>
-      <h1 className="text-lg font-semibold">
-        Please create your activity list.
-      </h1>
+      {listCreatorHeader}
       {!!taskList.length ? (
         <ul className="flex flex-col gap-8 items-stretch justify-center">
           {listElements}

@@ -25,7 +25,7 @@ export default function Header() {
         </ul>
         <ul className="text-base font-light">
           <li key="login">
-            <Link href="/">Login</Link>
+            <Link href="/user-auth">Login</Link>
           </li>
         </ul>
       </nav>
