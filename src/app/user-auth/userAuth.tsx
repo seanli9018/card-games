@@ -149,8 +149,8 @@ export default function UserAuth() {
           errors.passwordError ? (
             <ul className="text-xs mt-1 text-red-600 dark:text-red-200">
               <li>Please enter a valid password, which requires: </li>
-              <li>5 to 16 in length</li>
-              <li>at least one letter and one number.</li>
+              <li> - 5 to 16 in length</li>
+              <li> - at least one letter and one number.</li>
             </ul>
           ) : undefined
         }
