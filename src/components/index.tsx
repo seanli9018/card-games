@@ -15,6 +15,7 @@ export {
   Notification,
   NotificationHub,
   GameTransition,
+  Input,
 } from "./shared";
 export type {
   NotificationHubProps,

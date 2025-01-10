@@ -13,4 +13,6 @@ export type {
   NotificationItemData,
 } from "./notification";
 
+export { default as Input } from "./input";
+
 export { default as Test } from "./test";
