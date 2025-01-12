@@ -1,5 +1,11 @@
 import UserAuth from "./userAuth";
+import { Header } from "@/components";
 
 export default function Page() {
-  return <UserAuth />;
+  return (
+    <>
+      <Header />
+      <UserAuth />
+    </>
+  );
 }

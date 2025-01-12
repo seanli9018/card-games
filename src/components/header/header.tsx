@@ -1,8 +1,43 @@
+"use client";
+
+import { useState } from "react";
+import { useUser } from "@/store/user";
 import Link from "next/link";
 import Image from "next/image";
+import { Dropdown } from "../shared";
 import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 
 export default function Header() {
+  const [openUserDropdown, setUserDropdown] = useState(false);
+  const { user, isLoggedIn } = useUser();
+
+  const handleProfileClick = () => {
+    setUserDropdown((prev: boolean) => !prev);
+  };
+
+  const dropdownLinks = [
+    [
+      {
+        label: "Profile",
+        href: "#",
+      },
+      {
+        label: "Settings",
+        href: "#",
+      },
+    ],
+    [
+      {
+        label: "Game Settings",
+        href: "#",
+      },
+      {
+        label: "Try Premium",
+        href: "#",
+      },
+    ],
+  ];
+
   return (
     <header className="py-4 px-6 border-solid border-b border-slate-200 h-16">
       <nav className="flex flex-row justify-between items-center">
@@ -15,7 +50,6 @@ export default function Header() {
                 height={30}
                 alt="Home"
                 className="bg-slate-800 rounded-full"
-                aria-hidden
               />
             </Link>
           </li>
@@ -23,12 +57,28 @@ export default function Header() {
             <Link href="/games">Games</Link>
           </li>
         </ul>
-        <ul className="text-base font-light">
-          <li key="login">
-            <Link href="/user-auth">Login</Link>
-          </li>
-        </ul>
+        {!isLoggedIn ? (
+          <ul className="text-base font-light">
+            <li key="login">
+              <Link href="/user-auth">Login</Link>
+            </li>
+          </ul>
+        ) : (
+          <Image
+            src={LogoThumbnail}
+            width={30}
+            height={30}
+            alt="Profile"
+            className="relative bg-slate-800 rounded-full cursor-pointer"
+            onClick={handleProfileClick}
+          />
+        )}
       </nav>
+      <Dropdown
+        open={openUserDropdown}
+        linkGroups={dropdownLinks}
+        user={user}
+      />
     </header>
   );
 }

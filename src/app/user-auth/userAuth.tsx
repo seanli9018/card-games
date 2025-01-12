@@ -7,6 +7,8 @@ import {
   NotificationHub,
   type AddNotificationCBFunction,
 } from "@/components";
+import { useUser, UPDATE_USER } from "@/store/user";
+import { logError } from "@/utils";
 import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 import { UserAuthModeType, UserLoginResponseType } from "./userAuth.type";
 
@@ -23,6 +25,8 @@ export default function UserAuth() {
     username: "",
     password: "",
   });
+  const { dispatch } = useUser();
+
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
 
   const emailInputValidator = (value: string) => {
@@ -153,10 +157,16 @@ export default function UserAuth() {
       );
 
       const userLoginResponse: UserLoginResponseType = await data.json();
+      if (!userLoginResponse.user) {
+        logError(
+          "User authentication call succeed without returning user data."
+        );
+        return;
+      }
 
-      console.log(userLoginResponse.message, userLoginResponse.user);
+      dispatch({ type: UPDATE_USER, payload: userLoginResponse.user });
     } catch (err) {
-      console.log(err);
+      logError(`User authentication call failed: ${err}`);
     }
   };
 
