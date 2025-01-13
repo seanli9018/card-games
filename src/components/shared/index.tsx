@@ -12,6 +12,6 @@ export type {
   NotificationItemData,
 } from "./notification";
 export { default as Input } from "./input";
-export { default as Dropdown } from "./dropdown";
+export { DropdownContainer, LinkListDropdown } from "./dropdown";
 
 export { default as Test } from "./test";

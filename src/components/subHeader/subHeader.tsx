@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeaderProfile from "../headerProfile";
 import type { SubHeaderProps } from "./subHeader.type";
 
 export default function SubHeader({ title }: SubHeaderProps) {
@@ -26,11 +27,7 @@ export default function SubHeader({ title }: SubHeaderProps) {
         {title ? (
           <h1 className="flex-1 text-center text-sm font-extrabold">{title}</h1>
         ) : null}
-        <ul className="text-base font-light">
-          <li key="login">
-            <Link href="/">Login</Link>
-          </li>
-        </ul>
+        <HeaderProfile />
       </nav>
     </header>
   );
