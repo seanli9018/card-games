@@ -1,16 +1,20 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import {
   Button,
   Input,
   NotificationHub,
+  Spinner,
   type AddNotificationCBFunction,
 } from "@/components";
-import { useUser, UPDATE_USER } from "@/store/user";
+import { useUser, UPDATE_USER, LOGOUT_USER } from "@/store/user";
+import { loginFetcher } from "./fetch";
 import { logError } from "@/utils";
 import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
-import { UserAuthModeType, UserLoginResponseType } from "./userAuth.type";
+import { UserAuthModeType } from "./userAuth.type";
 
 export default function UserAuth() {
   const [mode, setMode] = useState<UserAuthModeType>("login");
@@ -25,9 +29,25 @@ export default function UserAuth() {
     username: "",
     password: "",
   });
+  const [authCallTrigger, setAuthCallTrigger] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  // Get the redirect URL from query
+  const redirect = searchParams.get("redirect");
+
   const { dispatch } = useUser();
 
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
+
+  const {
+    data: userLoginResponse,
+    error: userLoginError,
+    isLoading: userLoginLoading,
+  } = useQuery({
+    queryKey: ["login"],
+    queryFn: () => loginFetcher(authPayload.email, authPayload.password),
+    enabled: authCallTrigger,
+  });
 
   const emailInputValidator = (value: string) => {
     const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,}$/;
@@ -126,7 +146,7 @@ export default function UserAuth() {
     setRevealPassword((prevValue) => !prevValue);
   };
 
-  const handleAuthBtnClick = async () => {
+  const handleAuthBtnClick = () => {
     const { email, password } = authPayload;
     const { emailError, passwordError } = errors;
 
@@ -139,40 +159,48 @@ export default function UserAuth() {
       return;
     }
 
-    try {
-      const data = await fetch(
-        "https://card-games-backend.vercel.app/user/login",
-
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
-
-      const userLoginResponse: UserLoginResponseType = await data.json();
-      if (!userLoginResponse.user) {
-        logError(
-          "User authentication call succeed without returning user data."
-        );
-        return;
-      }
-
-      dispatch({ type: UPDATE_USER, payload: userLoginResponse.user });
-    } catch (err) {
-      logError(`User authentication call failed: ${err}`);
-    }
+    // fire user auth call.
+    setAuthCallTrigger(true);
   };
 
   useEffect(() => {
     setMode("login");
   }, []);
+
+  useEffect(() => {
+    if (userLoginLoading || !authCallTrigger) return;
+    // TODO: might want to show notification message on the UI to notify user on login failed.
+    if (userLoginError) {
+      // logout user and remove all user data in localStorage if there is any.
+      dispatch({ type: LOGOUT_USER });
+      logError(`User authentication call failed: ${userLoginError}`);
+      return;
+    }
+
+    if (!userLoginError && userLoginResponse && !userLoginResponse.user) {
+      // logout user and remove all user data in localStorage if there is any.
+      dispatch({ type: LOGOUT_USER });
+      logError("User authentication call succeed without returning user data.");
+      return;
+    }
+
+    if (userLoginResponse?.user) {
+      dispatch({ type: UPDATE_USER, payload: userLoginResponse.user });
+
+      // Ensure `redirect` is a string before using it
+      const redirectTo = Array.isArray(redirect) ? redirect[0] : redirect;
+      // redirect to previous page or home page after login process.
+      router.replace(redirectTo || "/");
+    }
+  }, [
+    userLoginError,
+    userLoginResponse,
+    userLoginLoading,
+    authCallTrigger,
+    dispatch,
+    router,
+    redirect,
+  ]);
 
   return (
     <>
@@ -312,8 +340,9 @@ export default function UserAuth() {
           variant="primary"
           widthType="layout"
           onClick={handleAuthBtnClick}
+          disabled={userLoginLoading}
         >
-          Log in
+          {userLoginLoading ? <Spinner /> : "Log in"}
         </Button>
         <span className="text-sm text-center text-slate-400">
           New user?{" "}

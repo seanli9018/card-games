@@ -20,7 +20,7 @@ const initialStateGenerator = (): UserStateType => {
   const userStateLocalStorage = getStorage(USER_STATE_STORAGE_KEY);
   if (!userStateLocalStorage) {
     return {
-      user: null,
+      user: undefined,
       isLoggedIn: false,
     };
   }
@@ -55,7 +55,7 @@ const userReducer = (state: UserStateType, action: UserStateActionType) => {
 
       return {
         ...state,
-        user: null,
+        user: undefined,
         isLoggedIn: false,
       };
 

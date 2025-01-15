@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { UserProvider } from "@/store/user";
+import { ReactQueryClientProvider } from "@/store/queryClient";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)] flex flex-col min-h-screen`}
       >
-        <UserProvider>{children}</UserProvider>
+        <ReactQueryClientProvider>
+          <UserProvider>{children}</UserProvider>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );

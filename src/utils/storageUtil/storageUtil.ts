@@ -27,6 +27,8 @@ export const getStorage = (
   key: string,
   storageType: StorageType = "localStorage"
 ) => {
+  if (typeof window === "undefined") return null;
+
   try {
     const storage = window[storageType];
     const itemStr = storage.getItem(key);
@@ -51,6 +53,8 @@ export const removeStorage = (
   key: string,
   storageType: StorageType = "localStorage"
 ) => {
+  if (typeof window === "undefined") return null;
+
   try {
     const storage = window[storageType];
     storage.removeItem(key);

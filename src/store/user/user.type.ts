@@ -7,14 +7,14 @@ export interface UserProviderProps {
 }
 
 export type UserStateType = {
-  user: UserType | null;
+  user?: UserType;
   isLoggedIn: boolean;
 };
 
 export type UserStateActionTypeUnion = typeof UPDATE_USER | typeof LOGOUT_USER;
 export type UserStateActionType = {
   type: UserStateActionTypeUnion;
-  payload: UserType | null;
+  payload?: UserType;
 };
 
 export type UserContextType = UserStateType & {

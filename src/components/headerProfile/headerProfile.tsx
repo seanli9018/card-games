@@ -2,10 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useUser } from "@/store/user";
+import { useUser, LOGOUT_USER } from "@/store/user";
 import { LinkListDropdown } from "../shared";
 import DefaultAvatar from "../../../public/default_avatar_1.png";
+
+function LogoutButton() {
+  const { dispatch } = useUser();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // logout user.
+    dispatch({ type: LOGOUT_USER });
+    // redirect to home page.
+    router.replace("/");
+
+    return;
+  };
+
+  return (
+    <button
+      onClick={handleLogout}
+      className="w-full text-left block pl-2 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600"
+    >
+      Logout
+    </button>
+  );
+}
 
 export default function HeaderProfile() {
   const [openUserDropdown, setUserDropdown] = useState(false);
@@ -14,15 +38,6 @@ export default function HeaderProfile() {
   const handleProfileClick = () => {
     setUserDropdown((prev: boolean) => !prev);
   };
-
-  const logoutElement = (
-    <button
-      onClick={() => alert("Logged out!")}
-      className="w-full text-left block pl-1 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-600"
-    >
-      Logout
-    </button>
-  );
 
   const dropdownLinks = [
     [
@@ -45,7 +60,7 @@ export default function HeaderProfile() {
         href: "#",
       },
     ],
-    [logoutElement],
+    [<LogoutButton key="logout-button" />],
   ];
 
   return (
