@@ -4,8 +4,6 @@ export const logError = (
   message: string = "no error message.",
   error?: Error
 ) => {
-  console.error(
-    `${constants.LOG_PREFIX} ${message}`,
-    error ? JSON.stringify(error) : null
-  );
+  const errorObj = error ? JSON.stringify(error) : "";
+  console.error(`${constants.LOG_PREFIX} ${message}`, errorObj);
 };

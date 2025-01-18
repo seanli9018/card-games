@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type MouseEventHandler } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -51,6 +51,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     queryKey: ["login"],
     queryFn: () => loginFetcher(authPayload.email, authPayload.password),
     enabled: loginTrigger,
+    staleTime: 0,
   });
 
   const {
@@ -66,6 +67,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         authPayload.password
       ),
     enabled: registerTrigger,
+    staleTime: 0,
   });
 
   const emailInputValidator = (value: string) => {
@@ -168,7 +170,9 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     setRevealPassword((prevValue) => !prevValue);
   };
 
-  const handleAuthBtnClick = () => {
+  const handleAuthBtnClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    evt.preventDefault();
+
     const { email, username, password } = authPayload;
     const { emailError, usernameError, passwordError } = errors;
 
@@ -211,10 +215,16 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     }
   };
 
+  // Login data, error status handling.
   useEffect(() => {
     if (userLoginLoading || !setLoginTrigger) return;
     // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userLoginError) {
+      addNotificationRef.current?.({
+        title: "Error",
+        message: "Failed to log in. Please try again later.",
+        imageSrc: LogoThumbnail,
+      });
       // logout user and remove all user data in localStorage if there is any.
       dispatch({ type: LOGOUT_USER });
       logError(`User authentication call failed: ${userLoginError}`);
@@ -222,6 +232,13 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     }
 
     if (!userLoginError && userLoginResponse && !userLoginResponse.user) {
+      addNotificationRef.current?.({
+        title: "Error",
+        message:
+          userLoginResponse?.message ??
+          "Failed to log in. Please try again later.",
+        imageSrc: LogoThumbnail,
+      });
       // logout user and remove all user data in localStorage if there is any.
       dispatch({ type: LOGOUT_USER });
       logError("User authentication call succeed without returning user data.");
@@ -241,6 +258,61 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     userLoginResponse,
     userLoginLoading,
     setLoginTrigger,
+    dispatch,
+    router,
+    redirect,
+  ]);
+
+  // Register data, error status handling.
+  useEffect(() => {
+    if (userRegisterLoading || !setRegisterTrigger) return;
+    // TODO: might want to show notification message on the UI to notify user on login failed.
+    if (userRegisterError) {
+      addNotificationRef.current?.({
+        title: "Error",
+        message:
+          userRegisterResponse?.message ??
+          "Failed to register new user. Please try again later.",
+        imageSrc: LogoThumbnail,
+      });
+      // logout user and remove all user data in localStorage if there is any.
+      dispatch({ type: LOGOUT_USER });
+      logError(`User authentication failed: ${userRegisterError}`);
+      return;
+    }
+
+    if (
+      !userRegisterError &&
+      userRegisterResponse &&
+      !userRegisterResponse.user
+    ) {
+      // logout user and remove all user data in localStorage if there is any.
+      addNotificationRef.current?.({
+        title: "Error",
+        message:
+          userRegisterResponse?.message ??
+          "Failed to register new user. Please try again later.",
+        imageSrc: LogoThumbnail,
+      });
+      // logout user and remove all user data in localStorage if there is any.
+      dispatch({ type: LOGOUT_USER });
+      logError(userRegisterResponse?.message);
+      return;
+    }
+
+    if (userRegisterResponse?.user) {
+      dispatch({ type: UPDATE_USER, payload: userRegisterResponse.user });
+
+      // Ensure `redirect` is a string before using it
+      const redirectTo = Array.isArray(redirect) ? redirect[0] : redirect;
+      // redirect to previous page or home page after login process.
+      router.replace(redirectTo || "/");
+    }
+  }, [
+    userRegisterError,
+    userRegisterResponse,
+    userRegisterLoading,
+    setRegisterTrigger,
     dispatch,
     router,
     redirect,
@@ -399,9 +471,15 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
           variant="primary"
           widthType="layout"
           onClick={handleAuthBtnClick}
-          disabled={userLoginLoading}
+          disabled={userLoginLoading || userRegisterLoading}
         >
-          {userLoginLoading ? <Spinner /> : isLoginMode ? "Log in" : "Register"}
+          {userLoginLoading || userRegisterLoading ? (
+            <Spinner />
+          ) : isLoginMode ? (
+            "Log in"
+          ) : (
+            "Register"
+          )}
         </Button>
         {isLoginMode ? (
           <span className="text-sm text-center text-slate-400">
@@ -433,14 +511,12 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
           </span>
         ) : null}
       </section>
-      {errors.emailError || errors.passwordError || errors.usernameError ? (
-        <NotificationHub
-          timeout={5000}
-          addNotification={(addNotificationCB: AddNotificationCBFunction) => {
-            addNotificationRef.current = addNotificationCB;
-          }}
-        />
-      ) : null}
+      <NotificationHub
+        timeout={5000}
+        addNotification={(addNotificationCB: AddNotificationCBFunction) => {
+          addNotificationRef.current = addNotificationCB;
+        }}
+      />
     </>
   );
 }

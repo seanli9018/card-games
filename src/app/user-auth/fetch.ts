@@ -1,29 +1,20 @@
+import type { AxiosError } from "axios";
+import { axiosInstance } from "@/utils";
 import { logError } from "@/utils";
-import { UserLoginResponseType } from "./userAuth.type";
+import { UserResponseType } from "./userAuth.type";
 
 export const loginFetcher = async (email: string, password: string) => {
   if (!email || !password) return;
   try {
-    const data = await fetch(
-      "https://card-games-backend.vercel.app/user/login",
-
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }
-    );
-    const userLoginResponse: UserLoginResponseType = await data.json();
+    const response = await axiosInstance.post("/user/login", {
+      email,
+      password,
+    });
+    const userLoginResponse: UserResponseType = await response.data;
     return userLoginResponse;
-  } catch (err) {
+  } catch (err: unknown) {
     logError(`User login call failed: ${err}`);
-    Promise.reject(err);
+    throw new Error("Error log in user: " + (err as AxiosError).message);
   }
 };
 
@@ -34,26 +25,16 @@ export const registerFetcher = async (
 ) => {
   if (!email || !username || !password) return;
   try {
-    const data = await fetch(
-      "https://card-games-backend.vercel.app/user/register",
+    const response = await axiosInstance.post("/user/create", {
+      email,
+      username,
+      password,
+    });
 
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          username,
-          password,
-        }),
-      }
-    );
-    const userRegisterResponse: UserLoginResponseType = await data.json();
+    const userRegisterResponse: UserResponseType = await response.data;
     return userRegisterResponse;
-  } catch (err) {
+  } catch (err: unknown) {
     logError(`User register call failed: ${err}`);
-    Promise.reject(err);
+    throw new Error("Error register user: " + (err as AxiosError).message);
   }
 };
