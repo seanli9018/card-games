@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -11,13 +12,12 @@ import {
   type AddNotificationCBFunction,
 } from "@/components";
 import { useUser, UPDATE_USER, LOGOUT_USER } from "@/store/user";
-import { loginFetcher } from "./fetch";
+import { loginFetcher, registerFetcher } from "./fetch";
 import { logError } from "@/utils";
 import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 import { UserAuthModeType } from "./userAuth.type";
 
-export default function UserAuth() {
-  const [mode, setMode] = useState<UserAuthModeType>("login");
+export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
   const [errors, setErrors] = useState({
     emailError: "",
     usernameError: "",
@@ -29,13 +29,17 @@ export default function UserAuth() {
     username: "",
     password: "",
   });
-  const [authCallTrigger, setAuthCallTrigger] = useState(false);
+  const [loginTrigger, setLoginTrigger] = useState(false);
+  const [registerTrigger, setRegisterTrigger] = useState(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   // Get the redirect URL from query
   const redirect = searchParams.get("redirect");
 
   const { dispatch } = useUser();
+
+  const isLoginMode = mode === "login";
 
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
 
@@ -46,7 +50,22 @@ export default function UserAuth() {
   } = useQuery({
     queryKey: ["login"],
     queryFn: () => loginFetcher(authPayload.email, authPayload.password),
-    enabled: authCallTrigger,
+    enabled: loginTrigger,
+  });
+
+  const {
+    data: userRegisterResponse,
+    error: userRegisterError,
+    isLoading: userRegisterLoading,
+  } = useQuery({
+    queryKey: ["register"],
+    queryFn: () =>
+      registerFetcher(
+        authPayload.email,
+        authPayload.username,
+        authPayload.password
+      ),
+    enabled: registerTrigger,
   });
 
   const emailInputValidator = (value: string) => {
@@ -71,17 +90,20 @@ export default function UserAuth() {
   };
 
   const usernameInputValidator = (value: string) => {
-    if (value) {
+    const usernameRegExp = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$/;
+    const isValidUsername = usernameRegExp.test(value);
+
+    if (isValidUsername) {
       setErrors((prevErr) => ({
         ...prevErr,
         usernameError: "",
       }));
       return true;
     }
-    if (!value) {
+    if (!isValidUsername) {
       setErrors((prevErr) => ({
         ...prevErr,
-        usernameError: "Please enter a valid email address.",
+        usernameError: "Invalid username",
       }));
       return false;
     }
@@ -147,28 +169,50 @@ export default function UserAuth() {
   };
 
   const handleAuthBtnClick = () => {
-    const { email, password } = authPayload;
-    const { emailError, passwordError } = errors;
+    const { email, username, password } = authPayload;
+    const { emailError, usernameError, passwordError } = errors;
 
-    if (emailError || passwordError || !email || !password) {
-      addNotificationRef.current?.({
-        title: "Error",
-        message: "Please enter valid email and password to proceed.",
-        imageSrc: LogoThumbnail,
-      });
-      return;
+    // Log in
+    if (isLoginMode) {
+      if (emailError || passwordError || !email || !password) {
+        addNotificationRef.current?.({
+          title: "Error",
+          message: "Please enter valid email and password to proceed.",
+          imageSrc: LogoThumbnail,
+        });
+        return;
+      }
+
+      // fire user login call.
+      setLoginTrigger(true);
     }
 
-    // fire user auth call.
-    setAuthCallTrigger(true);
+    // Register
+    if (!isLoginMode) {
+      if (
+        emailError ||
+        passwordError ||
+        usernameError ||
+        !email ||
+        !password ||
+        !username
+      ) {
+        addNotificationRef.current?.({
+          title: "Error",
+          message:
+            "Please enter valid email, username and password to proceed.",
+          imageSrc: LogoThumbnail,
+        });
+        return;
+      }
+
+      // fire user register call.
+      setRegisterTrigger(true);
+    }
   };
 
   useEffect(() => {
-    setMode("login");
-  }, []);
-
-  useEffect(() => {
-    if (userLoginLoading || !authCallTrigger) return;
+    if (userLoginLoading || !setLoginTrigger) return;
     // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userLoginError) {
       // logout user and remove all user data in localStorage if there is any.
@@ -196,7 +240,7 @@ export default function UserAuth() {
     userLoginError,
     userLoginResponse,
     userLoginLoading,
-    authCallTrigger,
+    setLoginTrigger,
     dispatch,
     router,
     redirect,
@@ -206,7 +250,7 @@ export default function UserAuth() {
     <>
       <section className="flex flex-col justify-center gap-8 flex-1 max-w-lg w-full mx-auto px-4 md:px-6">
         <h1 className="text-lg md:text-xl font-semibold text-center">
-          YC Card Game {mode === "login" ? "Login" : "Register"}
+          YC Card Game {isLoginMode ? "Login" : "Register"}
         </h1>
         <Input
           inputProps={{ type: "text", placeholder: "Email", id: "email" }}
@@ -231,7 +275,7 @@ export default function UserAuth() {
           onBlur={handleBlur}
           error={errors.emailError}
         />
-        {mode !== "login" ? (
+        {!isLoginMode ? (
           <Input
             inputProps={{
               type: "text",
@@ -256,6 +300,21 @@ export default function UserAuth() {
                 </svg>
               </div>
             }
+            // Username must be at least 3 characters, starts with letters.
+            onBlur={handleBlur}
+            error={
+              errors.usernameError ? (
+                <ul className="text-xs mt-1 text-red-600 dark:text-red-200">
+                  <li>Please enter a valid username, which requires: </li>
+                  <li> - At least 3 characters in length</li>
+                  <li> - Starts with letter</li>
+                  <li> - Only letters, numbers and _ are allowed.</li>
+                  <li>
+                    - The underscore _ character must not appear at the end.
+                  </li>
+                </ul>
+              ) : undefined
+            }
           />
         ) : null}
         <Input
@@ -270,7 +329,7 @@ export default function UserAuth() {
               <ul className="text-xs mt-1 text-red-600 dark:text-red-200">
                 <li>Please enter a valid password, which requires: </li>
                 <li> - 5 to 16 in length</li>
-                <li> - at least one letter and one number.</li>
+                <li> - At least one letter and one number.</li>
               </ul>
             ) : undefined
           }
@@ -342,20 +401,37 @@ export default function UserAuth() {
           onClick={handleAuthBtnClick}
           disabled={userLoginLoading}
         >
-          {userLoginLoading ? <Spinner /> : "Log in"}
+          {userLoginLoading ? <Spinner /> : isLoginMode ? "Log in" : "Register"}
         </Button>
-        <span className="text-sm text-center text-slate-400">
-          New user?{" "}
-          <a href="#" className="underline underline-offset-2">
-            Register
-          </a>
-        </span>
-        <span className="text-sm text-center -mt-6 text-slate-400">
-          Forgot password?{" "}
-          <a href="#" className="underline underline-offset-2">
-            Reset password
-          </a>
-        </span>
+        {isLoginMode ? (
+          <span className="text-sm text-center text-slate-400">
+            New user?{" "}
+            <Link
+              href="/user-auth/register"
+              className="underline underline-offset-2"
+            >
+              Register
+            </Link>
+          </span>
+        ) : (
+          <span className="text-sm text-center text-slate-400">
+            Already registered?{" "}
+            <Link
+              href="/user-auth/login"
+              className="underline underline-offset-2"
+            >
+              Log in
+            </Link>
+          </span>
+        )}
+        {isLoginMode ? (
+          <span className="text-sm text-center -mt-6 text-slate-400">
+            Forgot password?{" "}
+            <a href="#" className="underline underline-offset-2">
+              Reset password
+            </a>
+          </span>
+        ) : null}
       </section>
       {errors.emailError || errors.passwordError || errors.usernameError ? (
         <NotificationHub

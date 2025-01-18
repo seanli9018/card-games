@@ -26,3 +26,34 @@ export const loginFetcher = async (email: string, password: string) => {
     Promise.reject(err);
   }
 };
+
+export const registerFetcher = async (
+  email: string,
+  username: string,
+  password: string
+) => {
+  if (!email || !username || !password) return;
+  try {
+    const data = await fetch(
+      "https://card-games-backend.vercel.app/user/register",
+
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          password,
+        }),
+      }
+    );
+    const userRegisterResponse: UserLoginResponseType = await data.json();
+    return userRegisterResponse;
+  } catch (err) {
+    logError(`User register call failed: ${err}`);
+    Promise.reject(err);
+  }
+};

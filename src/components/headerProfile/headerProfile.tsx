@@ -68,7 +68,7 @@ export default function HeaderProfile() {
       {!isLoggedIn ? (
         <ul className="text-base font-light">
           <li key="login">
-            <Link href="/user-auth">Login</Link>
+            <Link href="/user-auth/login">Login</Link>
           </li>
         </ul>
       ) : (
