@@ -10,6 +10,7 @@ import {
 let id = 0;
 export default function NotificationHub({
   timeout = 3000,
+  variant = "info",
   addNotification,
 }: NotificationHubProps) {
   const [notificationList, setNotificationList] = useState<
@@ -19,6 +20,13 @@ export default function NotificationHub({
   const notificationRefMap = useMemo(() => new WeakMap(), []);
   // init weak map data for storing cancelled notification div elements as key, cancel fn as value.
   const notificationCancelMap = useMemo(() => new WeakMap(), []);
+
+  const linearGradientStyle =
+    variant === "warn"
+      ? "linear-gradient(130deg, #ca8a04, #facc15)"
+      : variant === "error"
+      ? "linear-gradient(130deg, #dc2626, #f87171)"
+      : "linear-gradient(130deg, #00b4e6, #00f0e0)";
 
   const transitions = useTransition(notificationList, {
     from: {
@@ -78,6 +86,7 @@ export default function NotificationHub({
             title={item.title}
             message={item.message}
             imageSrc={item.imageSrc}
+            variant={variant}
             onClose={() => {
               if (notificationCancelMap.has(item) && life.get() !== "0%")
                 notificationCancelMap.get(item)();
@@ -86,7 +95,7 @@ export default function NotificationHub({
           <animated.div
             style={{
               right: life,
-              backgroundImage: "linear-gradient(130deg, #00b4e6, #00f0e0)",
+              backgroundImage: `${linearGradientStyle}`,
             }}
             className="absolute bottom-px left-0 h-1 rounded-b-md mx-px"
           ></animated.div>

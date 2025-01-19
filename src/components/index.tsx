@@ -9,6 +9,7 @@ export type { ListValueWithLinearStyle } from "./listCreator";
 export {
   Button,
   Spinner,
+  FullScreenSpinner,
   Tag,
   Card,
   Test,

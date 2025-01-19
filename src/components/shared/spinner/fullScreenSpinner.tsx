@@ -1,6 +1,6 @@
-export default function Spinner() {
+export default function FullScreenSpinner() {
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center items-center fixed top-0 left-0 w-screen h-screen">
       <div className="flex flex-row gap-1">
         <span className="relative flex h-3 w-3 animate-bounce">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-200 opacity-75"></span>

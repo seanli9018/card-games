@@ -5,6 +5,7 @@ export type WidthType = "content" | "layout";
 export type Color = "regular" | "monochromatic";
 export type BreakpointType = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 export type AbsolutePositionType = "left" | "center" | "right";
+export type NotificationVariantType = "info" | "warn" | "error";
 
 export type UserType = {
   username: string;

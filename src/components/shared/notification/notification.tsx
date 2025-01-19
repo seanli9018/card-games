@@ -8,13 +8,17 @@ export default function Notification({
   title = "",
   message = "",
   imageSrc,
+  variant = "info",
   onClose,
   ...restProps
 }: NotificationProps) {
   const notificationContainer = clsx(
-    `border border-blue-300 bg-slate-200 dark:bg-slate-800 
-    shadow rounded-md p-2 max-w-sm w-full mx-auto 
-    `,
+    "border shadow rounded-md p-2 max-w-sm w-full mx-auto",
+    {
+      "border-blue-300 bg-slate-200 dark:bg-slate-800": variant === "info",
+      "border-orange-300 bg-orange-100 dark:bg-orange-800": variant === "warn",
+      "border-rose-300 bg-rose-100 dark:bg-rose-800": variant === "error",
+    },
     restProps.className
   );
 
@@ -33,11 +37,12 @@ export default function Notification({
         ) : null}
         <div className="flex-1 space-y-2 py-1">
           <div className="flex flex-row justify-between leading-6">
-            {title ? <h3 className="text-md font-semibold ">{title}</h3> : null}
+            {title ? <h3 className="text-md font-semibold">{title}</h3> : null}
             <Button
               variant="tertiary"
               size="small"
               shape="round"
+              color="monochromatic"
               className="text-gray-200 self-end"
               style={{ padding: "2px" }}
               onClick={(evt: MouseEvent) => {

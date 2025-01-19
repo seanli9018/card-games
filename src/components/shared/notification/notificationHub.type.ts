@@ -1,4 +1,5 @@
 import { NotificationItem } from "./notification.type";
+import { NotificationVariantType } from "@/types";
 
 export interface NotificationItemData extends NotificationItem {
   key: number;
@@ -12,5 +13,6 @@ export type AddNotificationCBFunction = ({
 
 export interface NotificationHubProps {
   timeout?: number;
+  variant?: NotificationVariantType;
   addNotification?: (addNotificationCB: AddNotificationCBFunction) => void;
 }

@@ -180,7 +180,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (isLoginMode) {
       if (emailError || passwordError || !email || !password) {
         addNotificationRef.current?.({
-          title: "Error",
+          title: "Warning",
           message: "Please enter valid email and password to proceed.",
           imageSrc: LogoThumbnail,
         });
@@ -202,7 +202,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         !username
       ) {
         addNotificationRef.current?.({
-          title: "Error",
+          title: "Warning",
           message:
             "Please enter valid email, username and password to proceed.",
           imageSrc: LogoThumbnail,
@@ -470,6 +470,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         <Button
           variant="primary"
           widthType="layout"
+          className="min-h-10"
           onClick={handleAuthBtnClick}
           disabled={userLoginLoading || userRegisterLoading}
         >
@@ -513,6 +514,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
       </section>
       <NotificationHub
         timeout={5000}
+        variant={userLoginError || userRegisterError ? "error" : "warn"}
         addNotification={(addNotificationCB: AddNotificationCBFunction) => {
           addNotificationRef.current = addNotificationCB;
         }}
