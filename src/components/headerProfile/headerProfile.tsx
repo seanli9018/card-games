@@ -14,6 +14,7 @@ function LogoutButton() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
+  // TODO: might need to clear token value stored in the document.cookie.
   const handleLogout = () => {
     // IMPORTANT: clear all query cached data.
     queryClient.clear();

@@ -221,7 +221,6 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     //Reset trigger.
     setLoginTrigger(false);
 
-    // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userLoginError) {
       addNotificationRef.current?.({
         title: "Error",
@@ -273,7 +272,6 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     //Reset trigger.
     setRegisterTrigger(false);
 
-    // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userRegisterError) {
       addNotificationRef.current?.({
         title: "Error",
