@@ -217,7 +217,10 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
   // Login data, error status handling.
   useEffect(() => {
-    if (userLoginLoading || !setLoginTrigger) return;
+    if (userLoginLoading || !loginTrigger) return;
+    //Reset trigger.
+    setLoginTrigger(false);
+
     // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userLoginError) {
       addNotificationRef.current?.({
@@ -257,6 +260,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     userLoginError,
     userLoginResponse,
     userLoginLoading,
+    loginTrigger,
     setLoginTrigger,
     dispatch,
     router,
@@ -265,7 +269,10 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
   // Register data, error status handling.
   useEffect(() => {
-    if (userRegisterLoading || !setRegisterTrigger) return;
+    if (userRegisterLoading || !registerTrigger) return;
+    //Reset trigger.
+    setRegisterTrigger(false);
+
     // TODO: might want to show notification message on the UI to notify user on login failed.
     if (userRegisterError) {
       addNotificationRef.current?.({
@@ -312,6 +319,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     userRegisterError,
     userRegisterResponse,
     userRegisterLoading,
+    registerTrigger,
     setRegisterTrigger,
     dispatch,
     router,

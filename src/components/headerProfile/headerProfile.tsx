@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -10,9 +11,12 @@ import DefaultAvatar from "../../../public/default_avatar_1.png";
 
 function LogoutButton() {
   const { dispatch } = useUser();
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const handleLogout = () => {
+    // IMPORTANT: clear all query cached data.
+    queryClient.clear();
     // logout user.
     dispatch({ type: LOGOUT_USER });
     // redirect to home page.
