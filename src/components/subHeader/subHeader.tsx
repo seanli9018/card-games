@@ -4,7 +4,10 @@ import type { SubHeaderProps } from "./subHeader.type";
 
 export default function SubHeader({ title }: SubHeaderProps) {
   return (
-    <header className="py-4 px-6 border-solid border-b border-slate-200 h-16 flex items-center">
+    <header
+      id="yc-game-sub-header"
+      className="py-4 px-6 border-solid border-b border-slate-200 h-16 flex items-center"
+    >
       <nav className="flex flex-row justify-between items-center flex-1">
         <ul className="flex flex-row items-center">
           <li key="back-icon" className="mr-4">

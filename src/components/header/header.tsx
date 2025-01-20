@@ -5,7 +5,10 @@ import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
 
 export default function Header() {
   return (
-    <header className="py-4 px-6 border-solid border-b border-slate-200 h-16">
+    <header
+      id="yc-game-header"
+      className="py-4 px-6 border-solid border-b border-slate-200 h-16"
+    >
       <nav className="flex flex-row justify-between items-center">
         <ul className="flex flex-row items-center text-lg font-semibold">
           <li key="home" className="mr-4">

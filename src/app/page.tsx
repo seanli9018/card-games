@@ -55,7 +55,7 @@ export default function Home() {
           </div>
           <Button
             size="regular"
-            variant="secondary"
+            variant="primary"
             color="monochromatic"
             href="/games"
             buttonType="link"

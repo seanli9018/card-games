@@ -11,7 +11,8 @@ export type AddNotificationCBFunction = ({
   imageSrc,
 }: NotificationItem) => void;
 
-export interface NotificationHubProps {
+export interface NotificationHubProps
+  extends React.ComponentPropsWithoutRef<"div"> {
   timeout?: number;
   variant?: NotificationVariantType;
   addNotification?: (addNotificationCB: AddNotificationCBFunction) => void;

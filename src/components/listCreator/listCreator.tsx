@@ -107,10 +107,14 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
 export default function ListCreator({
   header = "",
   commitBtnLabel = "",
+  defaultTaskList = [],
+  onListItemCommit,
   onCommitBtnClick,
   ...restProps
 }: ListCreatorProps) {
-  const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>([]);
+  const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>(
+    () => defaultTaskList
+  );
   const [inputError, setInputError] = useState("");
 
   const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
@@ -126,14 +130,20 @@ export default function ListCreator({
 
   const handleInputChangeCommit = (value: string) => {
     const linearStyle = generateRandomListLinear();
+
+    let newTaskList: ListValueWithLinearStyle[] = [];
+    // set task list state and passing task list value to newTaskList.
     setTaskList((prevList) => {
       const duplicatedItemIndex = prevList.findIndex((item) => {
         return item.value === value;
       });
+
+      newTaskList = [...prevList];
+
       // Only add new value if no existing value.
       if (duplicatedItemIndex < 0) {
         setInputError("");
-        return [
+        newTaskList = [
           ...prevList,
           {
             value,
@@ -141,25 +151,42 @@ export default function ListCreator({
           },
         ];
       }
-      // Otherwise return original list.
-      setInputError(`'${value}' is already existed in the activity list.`);
-      return prevList;
+
+      if (duplicatedItemIndex >= 0) {
+        setInputError(`'${value}' is already existed in the activity list.`);
+      }
+
+      // return new task list, either with new item added or without new item added if duplicate found.
+      return newTaskList;
     });
+    // passing latest task list array to callback fn.
+    if (onListItemCommit) onListItemCommit(newTaskList);
   };
 
   const handleListItemRemoval = (value: string) => {
     setInputError("");
+
+    let newTaskList: ListValueWithLinearStyle[] = [];
     setTaskList((prevList) => {
       const targetItemIndex = prevList.findIndex((item) => {
         return item.value === value;
       });
 
-      const newList = [
-        ...prevList.slice(0, targetItemIndex),
-        ...prevList.slice(targetItemIndex + 1),
-      ];
-      return newList;
+      newTaskList = [...prevList];
+
+      // Only remove list item if a matching list item found.
+      if (targetItemIndex >= 0) {
+        newTaskList = [
+          ...prevList.slice(0, targetItemIndex),
+          ...prevList.slice(targetItemIndex + 1),
+        ];
+      }
+
+      return newTaskList;
     });
+
+    // passing latest task list array to callback fn.
+    if (onListItemCommit) onListItemCommit(newTaskList);
   };
 
   const handleCommitButtonClick = () => {

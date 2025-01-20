@@ -16,8 +16,8 @@ export default function Notification({
     "border shadow rounded-md p-2 max-w-sm w-full mx-auto",
     {
       "border-blue-300 bg-slate-200 dark:bg-slate-800": variant === "info",
-      "border-orange-300 bg-orange-100 dark:bg-orange-800": variant === "warn",
-      "border-rose-300 bg-rose-100 dark:bg-rose-800": variant === "error",
+      "border-orange-300 bg-orange-100 dark:bg-orange-700": variant === "warn",
+      "border-rose-300 bg-rose-100 dark:bg-rose-700": variant === "error",
     },
     restProps.className
   );
@@ -43,8 +43,7 @@ export default function Notification({
               size="small"
               shape="round"
               color="monochromatic"
-              className="text-gray-200 self-end"
-              style={{ padding: "2px" }}
+              className="text-gray-200 dark:text-gray-100 px-0.5 py-0.5 self-end"
               onClick={(evt: MouseEvent) => {
                 evt.stopPropagation();
                 if (onClose) onClose();

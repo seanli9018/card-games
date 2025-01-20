@@ -17,6 +17,7 @@ export {
   NotificationHub,
   GameTransition,
   Input,
+  StepProgress,
 } from "./shared";
 export type {
   NotificationHubProps,

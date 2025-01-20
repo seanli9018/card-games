@@ -2,16 +2,19 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useTransition, animated } from "@react-spring/web";
+import clsx from "clsx";
 import Notification from "./notification";
 import {
   NotificationHubProps,
   NotificationItemData,
 } from "./notificationHub.type";
+
 let id = 0;
 export default function NotificationHub({
   timeout = 3000,
   variant = "info",
   addNotification,
+  ...restProps
 }: NotificationHubProps) {
   const [notificationList, setNotificationList] = useState<
     NotificationItemData[]
@@ -20,6 +23,11 @@ export default function NotificationHub({
   const notificationRefMap = useMemo(() => new WeakMap(), []);
   // init weak map data for storing cancelled notification div elements as key, cancel fn as value.
   const notificationCancelMap = useMemo(() => new WeakMap(), []);
+
+  const notificationHubContainerStyle = clsx(
+    "fixed top-14 right-5 z-50",
+    restProps.className
+  );
 
   const linearGradientStyle =
     variant === "warn"
@@ -73,7 +81,7 @@ export default function NotificationHub({
   }, []);
 
   return (
-    <div className="fixed top-14 right-5 z-50">
+    <div {...restProps} className={notificationHubContainerStyle}>
       {transitions(({ life, ...style }, item) => (
         <animated.div
           className="relative mt-4"

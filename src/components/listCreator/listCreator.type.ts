@@ -20,5 +20,7 @@ export interface ListCreatorProps
   extends Omit<React.ComponentPropsWithoutRef<"div">, "header"> {
   header?: string | ReactElement;
   commitBtnLabel?: string | ReactElement;
+  defaultTaskList?: ListValueWithLinearStyle[];
+  onListItemCommit?: (taskList: ListValueWithLinearStyle[]) => void;
   onCommitBtnClick?: (taskList: ListValueWithLinearStyle[]) => void;
 }

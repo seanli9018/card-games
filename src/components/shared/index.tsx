@@ -13,5 +13,6 @@ export type {
 } from "./notification";
 export { default as Input } from "./input";
 export { DropdownContainer, LinkListDropdown } from "./dropdown";
+export { default as StepProgress } from "./step-progress";
 
 export { default as Test } from "./test";
