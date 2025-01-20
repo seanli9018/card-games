@@ -10,13 +10,15 @@ export default function Input({
   inputProps,
   error,
   resetValue,
+  defaultValue = "",
   blurCommit = false,
   onBlur,
   onChange,
   onChangeCommit,
+  valueValidator,
   ...restProps
 }: InputProps) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(() => defaultValue);
 
   const inputContainerStyles = clsx(restProps.className);
   const inputStyles = clsx(
@@ -49,8 +51,15 @@ export default function Input({
   };
 
   const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(evt.target.value);
-    if (onChange) onChange(evt.target.value);
+    let isValueValidated = true;
+    if (valueValidator) {
+      isValueValidated = valueValidator(evt.target.value);
+    }
+
+    if (isValueValidated) {
+      setInputValue(evt.target.value);
+      if (onChange) onChange(evt.target.value);
+    }
   };
 
   useEffect(() => {

@@ -24,26 +24,25 @@ export default function Button(props: ButtonType) {
     {
       "focus:outline-none focus:ring-1 focus:ring-opacity-75":
         (variant === "primary" && !disabled) ||
-        (variant === "tertiary" && !disabled),
-      "border focus:outline-none focus:ring-1 focus:ring-opacity-75":
-        variant === "secondary" && !disabled,
+        (variant === "tertiary" && !disabled) ||
+        (variant === "secondary" && !disabled),
     },
     {
       "bg-sky-600/75 hover:bg-sky-600 text-white focus:ring-sky-400":
         variant === "primary" && _color === "regular",
-      "bg-transparent hover:bg-sky-400/25 text-sky-600 hover:text-sky-800 dark:hover:text-sky-200 border-sky-600 hover:border-sky-800 focus:ring-sky-400":
+      "border bg-transparent hover:bg-sky-400/25 text-sky-600 hover:text-sky-800 dark:hover:text-sky-200 border-sky-600 hover:border-sky-800 focus:ring-sky-400":
         variant === "secondary" && _color === "regular",
       "bg-transparent hover:bg-sky-400/25 text-sky-600 hover:text-sky-400 dark:hover:text-sky-200 focus:ring-sky-400":
         variant === "tertiary" && _color === "regular",
       "bg-gray-600/75 hover:bg-gray-600 text-white focus:ring-gray-400":
         variant === "primary" && _color === "monochromatic",
-      "bg-transparent hover:bg-gray-400/25 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 border-gray-600 hover:border-gray-800 focus:ring-gray-400":
+      "border bg-transparent hover:bg-gray-400/25 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 border-gray-600 hover:border-gray-800 focus:ring-gray-400":
         variant === "secondary" && _color === "monochromatic",
-      "bg-transparent hover:bg-gray-400/25 text-gray-600 dark:text-gray-300 hover:text-gray-300 dark:hover:text-gray-100 focus:ring-gray-400":
+      "bg-transparent hover:bg-gray-400/25 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 focus:ring-gray-400":
         variant === "tertiary" && _color === "monochromatic",
       "bg-gray-600/75 text-gray-200 cursor-default":
         variant === "primary" && _color === "disabled",
-      "bg-transparent text-gray-600 border-gray-600 cursor-default":
+      "border bg-transparent text-gray-600 border-gray-600 cursor-default":
         variant === "secondary" && _color === "disabled",
       "bg-transparent text-gray-600 cursor-default":
         variant === "tertiary" && _color === "disabled",

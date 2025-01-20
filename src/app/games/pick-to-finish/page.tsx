@@ -1,5 +1,5 @@
-import PickToFinish from "./pick-to-finish";
+import GamePrepare from "./game-prepare";
 
 export default function Page() {
-  return <PickToFinish />;
+  return <GamePrepare />;
 }

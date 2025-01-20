@@ -8,9 +8,13 @@ import clsx from "clsx";
 
 export default function StepProgress({
   steps,
+  backwardBtnLabel = "Previous",
+  forwardBtnLabel = "Next",
+  finalStepBtnLabel = "Proceed",
   direction = "horizontal",
   size = "regular",
   onForward,
+  onFinalStep,
   ...restProps
 }: StepProgressProps) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -23,16 +27,16 @@ export default function StepProgress({
   );
 
   const stepProgressTabsContainerStyle = clsx(
-    `relative flex w-full overflow-hidden overflow-x-auto`,
+    `relative flex w-full overflow-hidden overflow-x-auto bg-slate-200 dark:bg-slate-700 `,
     {
       "rounded-full": direction === "horizontal",
       "rounded-lg": direction === "vertical",
     }
   );
 
-  const stepProgressTabsStyle = clsx(`grid w-full`, {
-    [`grid-cols-${stepItemsLength}`]: direction === "horizontal",
-    [`grid-rows-${stepItemsLength}`]: direction === "vertical",
+  const stepProgressTabsStyle = clsx(`flex w-full`, {
+    "flex-row": direction === "horizontal",
+    "flex-col": direction === "vertical",
   });
 
   const handleForwardStep = () => {
@@ -40,7 +44,28 @@ export default function StepProgress({
     const forwardValidated = onForward(currentStep);
 
     if (forwardValidated) {
+      // handle final step moving out of step progress.
+      if (onFinalStep && currentStep === stepItemsLength) {
+        onFinalStep();
+        return;
+      }
+      // handle move forward.
       setCurrentStep((prev) => Math.min(prev + 1, stepItemsLength));
+    }
+  };
+
+  const handleTabClick = (clickedStep: number) => {
+    if (!onForward) return;
+
+    // if the clicked step is first step, no validation is needed.
+    if (clickedStep === 1) {
+      setCurrentStep(1);
+    }
+    // check if the previous step of the clicked step is completed and validated.
+    const forwardValidated = onForward(clickedStep - 1);
+
+    if (forwardValidated) {
+      setCurrentStep(clickedStep);
     }
   };
 
@@ -66,7 +91,7 @@ export default function StepProgress({
     <div {...restProps} className={stepProgressContainerStyle}>
       <div className={stepProgressTabsContainerStyle}>
         <animated.div
-          className="h-full bg-slate-100 dark:bg-slate-800 border-b-4 border-sky-600 absolute z-0"
+          className="bg-slate-100 dark:bg-slate-800 border-b-4 border-sky-600 absolute z-0"
           style={{
             width: direction === "horizontal" ? progressBarWidth : "100%",
             height: direction === "vertical" ? progressBarHeight : "100%",
@@ -77,9 +102,8 @@ export default function StepProgress({
             const stepProgressInnerStyles = clsx(
               "flex justify-stretch w-full overflow-hidden z-10",
               {
-                "bg-transparent dark:text-slate-200": index + 1 <= currentStep,
-                "bg-slate-200 dark:bg-slate-700 text-slate-200 dark:text-slate-400":
-                  index + 1 > currentStep,
+                "dark:text-slate-200": index + 1 <= currentStep,
+                "text-slate-600 dark:text-slate-400": index + 1 > currentStep,
               },
               {
                 "text-md": size === "large",
@@ -92,7 +116,7 @@ export default function StepProgress({
               <button
                 key={index}
                 className={stepProgressInnerStyles}
-                onClick={() => setCurrentStep(index + 1)}
+                onClick={() => handleTabClick(index + 1)}
               >
                 <span className="flex flex-col p-2 items-center w-full text-nowrap">
                   {step.label}
@@ -106,19 +130,22 @@ export default function StepProgress({
       <div className="flex gap-4 mt-6 w-full">
         <Button
           size={size}
+          variant="secondary"
           widthType="layout"
           disabled={currentStep === 1}
           onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 1))}
         >
-          Previous
+          {backwardBtnLabel}
         </Button>
         <Button
           size={size}
           widthType="layout"
-          disabled={currentStep === stepItemsLength}
+          disabled={!onFinalStep ? currentStep === stepItemsLength : false}
           onClick={handleForwardStep}
         >
-          Next
+          {currentStep === stepItemsLength
+            ? finalStepBtnLabel
+            : forwardBtnLabel}
         </Button>
       </div>
     </div>
