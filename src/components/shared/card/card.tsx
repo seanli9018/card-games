@@ -7,7 +7,13 @@ import type { CardProps } from "./card.type";
 import sty from "./card.module.scss";
 
 export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
-  const { id, content = "", onSelectCommit, ...restProps } = props;
+  const {
+    id,
+    content = "",
+    revealScale = 1.2,
+    onSelectCommit,
+    ...restProps
+  } = props;
   const [revealCard, setRevealCard] = useState(false);
 
   // card flipping;
@@ -25,7 +31,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
     config: { tension: 80, friction: 20 },
     from: { scale: "1" },
     to: {
-      scale: revealCard ? "1.2" : "1",
+      scale: revealCard ? revealScale.toString() : "1",
     },
   });
 

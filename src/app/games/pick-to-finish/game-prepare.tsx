@@ -10,6 +10,7 @@ import {
   type AddNotificationCBFunction,
   type ListValueWithLinearStyle,
 } from "@/components";
+import PickToFinish from "./pick-to-finish";
 import { useBreakpointRange } from "@/hooks";
 import LogoThumbnail from "../../../../public/logo_thumbnail.jpg";
 
@@ -137,7 +138,7 @@ export default function GamePrepare() {
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="size-6"
                           >
@@ -167,6 +168,13 @@ export default function GamePrepare() {
                       <p>Total number of activities: {userTaskList.length}</p>
                       <p>Total number of cards: {cardCount}</p>
                     </div>
+                    {cardCount > userTaskList.length ? (
+                      <p className="text-sky-900 dark:text-sky-300 text-sm">
+                        Note: Since total number of cards is greater than the
+                        number of activities, empty cards will be automatically
+                        generated.
+                      </p>
+                    ) : null}
                   </section>
                 ),
               },
@@ -187,7 +195,7 @@ export default function GamePrepare() {
           />
         </>
       ) : (
-        <>Mock Game</>
+        <PickToFinish taskList={userTaskList} cardCount={cardCount} />
       )}
     </>
   );
