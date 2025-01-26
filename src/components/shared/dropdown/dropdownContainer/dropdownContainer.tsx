@@ -1,14 +1,14 @@
-"use client";
-import { useRef, useEffect } from "react";
-import { useSpring, animated } from "@react-spring/web";
-import type { DropdownContainerProps } from "./dropdownContainer.type";
-import clsx from "clsx";
+'use client';
+import { useRef, useEffect } from 'react';
+import { useSpring, animated } from '@react-spring/web';
+import type { DropdownContainerProps } from './dropdownContainer.type';
+import clsx from 'clsx';
 
 export default function DropdownContainer({
   open = false,
   children,
   content,
-  position = "center",
+  position = 'center',
   onClose,
 }: DropdownContainerProps) {
   const dropdownContainerRef = useRef<HTMLDivElement>(null);
@@ -33,20 +33,20 @@ export default function DropdownContainer({
       }
     };
 
-    window.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener('mousedown', handleClickOutside);
 
     // Cleanup the event listener on unmount
     return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
 
   const dropdownContainerStyle = clsx(
-    "absolute mt-4 p-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
+    'absolute mt-4 p-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
     {
-      "left-1/2 -translate-x-1/2": position === "center",
-      "left-0": position === "left",
-      "right-0": position === "right",
+      'left-1/2 -translate-x-1/2': position === 'center',
+      'left-0': position === 'left',
+      'right-0': position === 'right',
     }
   );
 

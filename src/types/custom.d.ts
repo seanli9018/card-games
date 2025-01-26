@@ -1,6 +1,6 @@
-import { animated as originalAnimated } from "@react-spring/web";
+import { animated as originalAnimated } from '@react-spring/web';
 
-declare module "@react-spring/web" {
+declare module '@react-spring/web' {
   // Extend animated components
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface AnimatedProps<T> {
@@ -16,9 +16,9 @@ declare module "@react-spring/web" {
   export const animated: ExtendedAnimated;
 }
 
-declare module "lodash/omit" {
-  import { Omit } from "lodash";
+declare module 'lodash/omit' {
+  import { Omit } from 'lodash';
   export default Omit;
 }
 
-declare module "*.scss";
+declare module '*.scss';

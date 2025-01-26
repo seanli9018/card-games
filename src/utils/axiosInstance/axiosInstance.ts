@@ -1,10 +1,10 @@
 // axiosInstance.js
-import axios from "axios";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "https://card-games-backend.vercel.app",
+  baseURL: 'https://card-games-backend.vercel.app',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     // add other default headers here if necessary
   },
 });

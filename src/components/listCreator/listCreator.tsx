@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { isValidElement, useState } from "react";
-import clsx from "clsx";
-import { Button } from "@/components";
-import { randomHexColor, randomRangeFromZero } from "@/utils";
+import { isValidElement, useState } from 'react';
+import clsx from 'clsx';
+import { Button } from '@/components';
+import { randomHexColor, randomRangeFromZero } from '@/utils';
 import {
   ListInputProps,
   ListValueWithLinearStyle,
   LinearStyle,
   ListCreatorProps,
-} from "./listCreator.type";
+} from './listCreator.type';
 
-import style from "./listCreator.module.scss";
+import style from './listCreator.module.scss';
 
 function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   const listContainerStyles = clsx(restProps.className);
 
   const handleChangeCommit = () => {
     if (!inputValue.trim()) return;
     if (onChangeCommit) onChangeCommit(inputValue.trim());
-    setInputValue("");
+    setInputValue('');
   };
 
   const handleAddButtonClick = () => {
@@ -29,7 +29,7 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
   };
 
   const handleInputKeydown = (evt: React.KeyboardEvent) => {
-    if (evt.key === "Enter" || evt.code === "Enter") {
+    if (evt.key === 'Enter' || evt.code === 'Enter') {
       handleChangeCommit();
     }
   };
@@ -105,8 +105,8 @@ function ListInput({ onChangeCommit, error, ...restProps }: ListInputProps) {
 }
 
 export default function ListCreator({
-  header = "",
-  commitBtnLabel = "",
+  header = '',
+  commitBtnLabel = '',
   defaultTaskList = [],
   onListItemCommit,
   onCommitBtnClick,
@@ -115,9 +115,9 @@ export default function ListCreator({
   const [taskList, setTaskList] = useState<ListValueWithLinearStyle[]>(
     () => defaultTaskList
   );
-  const [inputError, setInputError] = useState("");
+  const [inputError, setInputError] = useState('');
 
-  const listCreatorStyles = clsx("flex flex-col gap-8", restProps.className);
+  const listCreatorStyles = clsx('flex flex-col gap-8', restProps.className);
 
   const generateRandomListLinear: () => LinearStyle = () => {
     return {
@@ -142,7 +142,7 @@ export default function ListCreator({
 
       // Only add new value if no existing value.
       if (duplicatedItemIndex < 0) {
-        setInputError("");
+        setInputError('');
         newTaskList = [
           ...prevList,
           {
@@ -164,7 +164,7 @@ export default function ListCreator({
   };
 
   const handleListItemRemoval = (value: string) => {
-    setInputError("");
+    setInputError('');
 
     let newTaskList: ListValueWithLinearStyle[] = [];
     setTaskList((prevList) => {
@@ -194,7 +194,7 @@ export default function ListCreator({
   };
 
   const listCreatorHeader =
-    typeof header === "string" ? (
+    typeof header === 'string' ? (
       <h1 className="text-lg font-semibold">{header}</h1>
     ) : isValidElement(header) ? (
       header
@@ -235,9 +235,9 @@ export default function ListCreator({
               d="M5 12h14"
               style={{
                 outline: `1px solid ${
-                  window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "#1f2937" //colors.gray.800
-                    : "#e5e7eb" //colors.gray.200
+                  window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? '#1f2937' //colors.gray.800
+                    : '#e5e7eb' //colors.gray.200
                 }`,
               }}
             />

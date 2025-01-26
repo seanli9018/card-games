@@ -1,3 +1,3 @@
-export interface ListInputProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface ListInputProps extends React.ComponentPropsWithoutRef<'div'> {
   onChangeCommit?: (value: string) => void;
 }

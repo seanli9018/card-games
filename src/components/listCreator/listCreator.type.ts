@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactElement } from 'react';
 
 export type LinearStyle = {
   startColor: string;
@@ -11,13 +11,13 @@ export type ListValueWithLinearStyle = {
   value: string;
 } & LinearStyle;
 
-export interface ListInputProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface ListInputProps extends React.ComponentPropsWithoutRef<'div'> {
   error?: string;
   onChangeCommit?: (value: string) => void;
 }
 
 export interface ListCreatorProps
-  extends Omit<React.ComponentPropsWithoutRef<"div">, "header"> {
+  extends Omit<React.ComponentPropsWithoutRef<'div'>, 'header'> {
   header?: string | ReactElement;
   commitBtnLabel?: string | ReactElement;
   defaultTaskList?: ListValueWithLinearStyle[];

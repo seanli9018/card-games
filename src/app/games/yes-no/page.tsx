@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
-import { SubHeader, Card } from "@/components";
-import { randomInArray } from "@/utils/randomUtil";
-import { GameTransition } from "@/components";
+'use client';
+import { useState } from 'react';
+import { SubHeader, Card } from '@/components';
+import { randomInArray } from '@/utils/randomUtil';
+import { GameTransition } from '@/components';
 
 function CardContent({ text }: { text: string }) {
   return (
@@ -13,8 +13,8 @@ function CardContent({ text }: { text: string }) {
 }
 
 export default function Page() {
-  const [selectedCard, setSelectedCard] = useState("");
-  const chosenItem = randomInArray(["YES", "NO"]) as string;
+  const [selectedCard, setSelectedCard] = useState('');
+  const chosenItem = randomInArray(['YES', 'NO']) as string;
 
   const handleCardSelect = (id?: string) => {
     if (!id) return;
@@ -23,7 +23,7 @@ export default function Page() {
 
   const cards = Array.from({ length: 2 }).map((_, index) => {
     const displayStyle =
-      selectedCard && selectedCard !== `card-${index}` ? "none" : "block";
+      selectedCard && selectedCard !== `card-${index}` ? 'none' : 'block';
     return (
       <li
         key={`${index}`}

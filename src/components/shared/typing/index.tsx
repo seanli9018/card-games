@@ -1,1 +1,1 @@
-export { default } from "./typing";
+export { default } from './typing';

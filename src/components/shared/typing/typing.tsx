@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useSpring, animated } from "@react-spring/web";
-import { useTypewriter } from "@/hooks";
-import { TypingProps } from "./typing.type";
+import { useSpring, animated } from '@react-spring/web';
+import { useTypewriter } from '@/hooks';
+import { TypingProps } from './typing.type';
 
 export default function Typing({
   text,
@@ -23,7 +23,7 @@ export default function Typing({
   const containerStyle = useSpring({
     from: {
       opacity: 0,
-      pointerEvent: "none",
+      pointerEvent: 'none',
     },
     to: {
       opacity:
@@ -32,8 +32,8 @@ export default function Typing({
           : 1,
       pointerEvent:
         (reverse && index === 0) || (!reverse && index >= text.length - 1)
-          ? "none"
-          : "auto",
+          ? 'none'
+          : 'auto',
     },
     config: { duration: fadeDelay }, // Adjust duration for fade speed
   });

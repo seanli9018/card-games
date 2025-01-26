@@ -1,33 +1,33 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, type MouseEventHandler } from "react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect, useRef, type MouseEventHandler } from 'react';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import {
   Button,
   Input,
   NotificationHub,
   Spinner,
   type AddNotificationCBFunction,
-} from "@/components";
-import { useUser, UPDATE_USER, LOGOUT_USER } from "@/store/user";
-import { loginFetcher, registerFetcher } from "./fetch";
-import { logError } from "@/utils";
-import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
-import { UserAuthModeType } from "./userAuth.type";
+} from '@/components';
+import { useUser, UPDATE_USER, LOGOUT_USER } from '@/store/user';
+import { loginFetcher, registerFetcher } from './fetch';
+import { logError } from '@/utils';
+import LogoThumbnail from '../../../public/logo_thumbnail.jpg';
+import { UserAuthModeType } from './userAuth.type';
 
 export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
   const [errors, setErrors] = useState({
-    emailError: "",
-    usernameError: "",
-    passwordError: "",
+    emailError: '',
+    usernameError: '',
+    passwordError: '',
   });
   const [revealPassword, setRevealPassword] = useState(false);
   const [authPayload, setAuthPayload] = useState({
-    email: "",
-    username: "",
-    password: "",
+    email: '',
+    username: '',
+    password: '',
   });
   const [loginTrigger, setLoginTrigger] = useState(false);
   const [registerTrigger, setRegisterTrigger] = useState(false);
@@ -35,11 +35,11 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   // Get the redirect URL from query
-  const redirect = searchParams.get("redirect");
+  const redirect = searchParams.get('redirect');
 
   const { dispatch } = useUser();
 
-  const isLoginMode = mode === "login";
+  const isLoginMode = mode === 'login';
 
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
 
@@ -48,7 +48,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     error: userLoginError,
     isLoading: userLoginLoading,
   } = useQuery({
-    queryKey: ["login"],
+    queryKey: ['login'],
     queryFn: () => loginFetcher(authPayload.email, authPayload.password),
     enabled: loginTrigger,
     staleTime: 0,
@@ -59,7 +59,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     error: userRegisterError,
     isLoading: userRegisterLoading,
   } = useQuery({
-    queryKey: ["register"],
+    queryKey: ['register'],
     queryFn: () =>
       registerFetcher(
         authPayload.email,
@@ -77,7 +77,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (isValidEmail) {
       setErrors((prevErr) => ({
         ...prevErr,
-        emailError: "",
+        emailError: '',
       }));
       return true;
     }
@@ -85,7 +85,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (!isValidEmail) {
       setErrors((prevErr) => ({
         ...prevErr,
-        emailError: "Please enter a valid email address.",
+        emailError: 'Please enter a valid email address.',
       }));
       return false;
     }
@@ -98,14 +98,14 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (isValidUsername) {
       setErrors((prevErr) => ({
         ...prevErr,
-        usernameError: "",
+        usernameError: '',
       }));
       return true;
     }
     if (!isValidUsername) {
       setErrors((prevErr) => ({
         ...prevErr,
-        usernameError: "Invalid username",
+        usernameError: 'Invalid username',
       }));
       return false;
     }
@@ -118,7 +118,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (isValidPassword) {
       setErrors((prevErr) => ({
         ...prevErr,
-        passwordError: "",
+        passwordError: '',
       }));
       return true;
     }
@@ -126,7 +126,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (!isValidPassword) {
       setErrors((prevErr) => ({
         ...prevErr,
-        passwordError: "Invalid password",
+        passwordError: 'Invalid password',
       }));
       return false;
     }
@@ -134,7 +134,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
   const handleBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
     switch (evt.target.id) {
-      case "email": {
+      case 'email': {
         const isValidEmail = emailInputValidator(evt.target.value);
         if (isValidEmail)
           setAuthPayload((prevPayload) => ({
@@ -144,7 +144,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         return;
       }
 
-      case "username": {
+      case 'username': {
         const isValidUsername = usernameInputValidator(evt.target.value);
         if (isValidUsername)
           setAuthPayload((prevPayload) => ({
@@ -154,7 +154,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         return;
       }
 
-      case "password": {
+      case 'password': {
         const isValidPassword = passwordInputValidator(evt.target.value);
         if (isValidPassword)
           setAuthPayload((prevPayload) => ({
@@ -180,8 +180,8 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     if (isLoginMode) {
       if (emailError || passwordError || !email || !password) {
         addNotificationRef.current?.({
-          title: "Warning",
-          message: "Please enter valid email and password to proceed.",
+          title: 'Warning',
+          message: 'Please enter valid email and password to proceed.',
           imageSrc: LogoThumbnail,
         });
         return;
@@ -202,9 +202,9 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         !username
       ) {
         addNotificationRef.current?.({
-          title: "Warning",
+          title: 'Warning',
           message:
-            "Please enter valid email, username and password to proceed.",
+            'Please enter valid email, username and password to proceed.',
           imageSrc: LogoThumbnail,
         });
         return;
@@ -223,8 +223,8 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
     if (userLoginError) {
       addNotificationRef.current?.({
-        title: "Error",
-        message: "Failed to log in. Please try again later.",
+        title: 'Error',
+        message: 'Failed to log in. Please try again later.',
         imageSrc: LogoThumbnail,
       });
       // logout user and remove all user data in localStorage if there is any.
@@ -235,15 +235,15 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
     if (!userLoginError && userLoginResponse && !userLoginResponse.user) {
       addNotificationRef.current?.({
-        title: "Error",
+        title: 'Error',
         message:
           userLoginResponse?.message ??
-          "Failed to log in. Please try again later.",
+          'Failed to log in. Please try again later.',
         imageSrc: LogoThumbnail,
       });
       // logout user and remove all user data in localStorage if there is any.
       dispatch({ type: LOGOUT_USER });
-      logError("User authentication call succeed without returning user data.");
+      logError('User authentication call succeed without returning user data.');
       return;
     }
 
@@ -253,7 +253,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
       // Ensure `redirect` is a string before using it
       const redirectTo = Array.isArray(redirect) ? redirect[0] : redirect;
       // redirect to previous page or home page after login process.
-      router.replace(redirectTo || "/");
+      router.replace(redirectTo || '/');
     }
   }, [
     userLoginError,
@@ -274,10 +274,10 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
 
     if (userRegisterError) {
       addNotificationRef.current?.({
-        title: "Error",
+        title: 'Error',
         message:
           userRegisterResponse?.message ??
-          "Failed to register new user. Please try again later.",
+          'Failed to register new user. Please try again later.',
         imageSrc: LogoThumbnail,
       });
       // logout user and remove all user data in localStorage if there is any.
@@ -293,10 +293,10 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     ) {
       // logout user and remove all user data in localStorage if there is any.
       addNotificationRef.current?.({
-        title: "Error",
+        title: 'Error',
         message:
           userRegisterResponse?.message ??
-          "Failed to register new user. Please try again later.",
+          'Failed to register new user. Please try again later.',
         imageSrc: LogoThumbnail,
       });
       // logout user and remove all user data in localStorage if there is any.
@@ -311,7 +311,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
       // Ensure `redirect` is a string before using it
       const redirectTo = Array.isArray(redirect) ? redirect[0] : redirect;
       // redirect to previous page or home page after login process.
-      router.replace(redirectTo || "/");
+      router.replace(redirectTo || '/');
     }
   }, [
     userRegisterError,
@@ -328,10 +328,10 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
     <>
       <section className="flex flex-col justify-center gap-8 flex-1 max-w-lg w-full mx-auto px-4 md:px-6">
         <h1 className="text-lg md:text-xl font-semibold text-center">
-          YC Card Game {isLoginMode ? "Login" : "Register"}
+          YC Card Game {isLoginMode ? 'Login' : 'Register'}
         </h1>
         <Input
-          inputProps={{ type: "text", placeholder: "Email", id: "email" }}
+          inputProps={{ type: 'text', placeholder: 'Email', id: 'email' }}
           leadingIcon={
             <div className="shrink-0 select-none text-base text-gray-500 sm:text-sm/6">
               <svg
@@ -356,9 +356,9 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         {!isLoginMode ? (
           <Input
             inputProps={{
-              type: "text",
-              placeholder: "Username",
-              id: "username",
+              type: 'text',
+              placeholder: 'Username',
+              id: 'username',
             }}
             leadingIcon={
               <div className="shrink-0 select-none text-base text-gray-500 sm:text-sm/6">
@@ -397,9 +397,9 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         ) : null}
         <Input
           inputProps={{
-            type: !revealPassword ? "password" : "text",
-            placeholder: "Password",
-            id: "password",
+            type: !revealPassword ? 'password' : 'text',
+            placeholder: 'Password',
+            id: 'password',
           }}
           onBlur={handleBlur}
           error={
@@ -483,14 +483,14 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
           {userLoginLoading || userRegisterLoading ? (
             <Spinner />
           ) : isLoginMode ? (
-            "Log in"
+            'Log in'
           ) : (
-            "Register"
+            'Register'
           )}
         </Button>
         {isLoginMode ? (
           <span className="text-sm text-center text-slate-400">
-            New user?{" "}
+            New user?{' '}
             <Link
               href="/user-auth/register"
               className="underline underline-offset-2"
@@ -500,7 +500,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
           </span>
         ) : (
           <span className="text-sm text-center text-slate-400">
-            Already registered?{" "}
+            Already registered?{' '}
             <Link
               href="/user-auth/login"
               className="underline underline-offset-2"
@@ -511,7 +511,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
         )}
         {isLoginMode ? (
           <span className="text-sm text-center -mt-6 text-slate-400">
-            Forgot password?{" "}
+            Forgot password?{' '}
             <a href="#" className="underline underline-offset-2">
               Reset password
             </a>
@@ -520,7 +520,7 @@ export default function UserAuth({ mode }: { mode: UserAuthModeType }) {
       </section>
       <NotificationHub
         timeout={5000}
-        variant={userLoginError || userRegisterError ? "error" : "warn"}
+        variant={userLoginError || userRegisterError ? 'error' : 'warn'}
         addNotification={(addNotificationCB: AddNotificationCBFunction) => {
           addNotificationRef.current = addNotificationCB;
         }}

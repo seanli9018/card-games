@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useReducer } from "react";
-import { UserContext } from "./userContext";
-import { getStorage, setStorage, removeStorage } from "@/utils";
+import { useReducer } from 'react';
+import { UserContext } from './userContext';
+import { getStorage, setStorage, removeStorage } from '@/utils';
 import type {
   UserProviderProps,
   UserStateType,
   UserStateActionType,
-} from "./user.type";
+} from './user.type';
 import {
   UPDATE_USER,
   LOGOUT_USER,
   USER_STATE_STORAGE_KEY,
   USER_STATE_STORAGE_EXPIRE_IN_MIN,
-} from "./constants";
+} from './constants';
 
 // initial state
 const initialStateGenerator = (): UserStateType => {

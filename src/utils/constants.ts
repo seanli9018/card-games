@@ -1,1 +1,1 @@
-export const LOG_PREFIX = "[Card-Game]:";
+export const LOG_PREFIX = '[Card-Game]:';

@@ -7,21 +7,21 @@ export const randomInArray = (arr: unknown[]) => {
 
 export const randomHexColor = () => {
   return (
-    "#" +
+    '#' +
     Math.floor(Math.random() * 16777215)
       .toString(16)
-      .padStart(6, "0")
+      .padStart(6, '0')
   );
 };
 
 export const randomRangeFromZero = (upperLimit: number = 100) => {
-  if (typeof upperLimit !== "number") return;
+  if (typeof upperLimit !== 'number') return;
 
   return Math.floor(Math.random() * upperLimit);
 };
 
 export const fisherYatesRandomIndex = (index: number) => {
-  if (typeof index !== "number") return;
+  if (typeof index !== 'number') return;
   return Math.floor(Math.random() * (index + 1));
 };
 

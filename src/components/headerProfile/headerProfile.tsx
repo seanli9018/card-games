@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { useUser, LOGOUT_USER } from "@/store/user";
-import { LinkListDropdown } from "../shared";
-import DefaultAvatar from "../../../public/default_avatar_1.png";
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useUser, LOGOUT_USER } from '@/store/user';
+import { LinkListDropdown } from '../shared';
+import DefaultAvatar from '../../../public/default_avatar_1.png';
 
 function LogoutButton() {
   const { dispatch } = useUser();
@@ -21,7 +21,7 @@ function LogoutButton() {
     // logout user.
     dispatch({ type: LOGOUT_USER });
     // redirect to home page.
-    router.replace("/");
+    router.replace('/');
 
     return;
   };
@@ -47,22 +47,22 @@ export default function HeaderProfile() {
   const dropdownLinks = [
     [
       {
-        label: "Profile",
-        href: "#",
+        label: 'Profile',
+        href: '#',
       },
       {
-        label: "Settings",
-        href: "#",
+        label: 'Settings',
+        href: '#',
       },
     ],
     [
       {
-        label: "Try Premium",
-        href: "#",
+        label: 'Try Premium',
+        href: '#',
       },
       {
-        label: "Game Settings",
-        href: "#",
+        label: 'Game Settings',
+        href: '#',
       },
     ],
     [<LogoutButton key="logout-button" />],

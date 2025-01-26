@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const breakpoints = {
   xs: 0, // Extra Small
@@ -10,32 +10,32 @@ const breakpoints = {
 };
 
 const getBreakpoint = (width: number) => {
-  if (width >= breakpoints.xxl) return "xxl";
-  if (width >= breakpoints.xl) return "xl";
-  if (width >= breakpoints.lg) return "lg";
-  if (width >= breakpoints.md) return "md";
-  if (width >= breakpoints.sm) return "sm";
-  return "xs";
+  if (width >= breakpoints.xxl) return 'xxl';
+  if (width >= breakpoints.xl) return 'xl';
+  if (width >= breakpoints.lg) return 'lg';
+  if (width >= breakpoints.md) return 'md';
+  if (width >= breakpoints.sm) return 'sm';
+  return 'xs';
 };
 
 const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       return getBreakpoint(window.innerWidth);
     }
   });
 
   useEffect(() => {
     const handleResize = () => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
         // Safe to use window here
         const breakpoint = getBreakpoint(window.innerWidth);
         setBreakpoint(breakpoint);
       }
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return breakpoint;

@@ -1,6 +1,6 @@
-import type { ReactNode, Dispatch } from "react";
-import type { UserType } from "@/types";
-import { UPDATE_USER, LOGOUT_USER } from "./constants";
+import type { ReactNode, Dispatch } from 'react';
+import type { UserType } from '@/types';
+import { UPDATE_USER, LOGOUT_USER } from './constants';
 
 export interface UserProviderProps {
   children: ReactNode;

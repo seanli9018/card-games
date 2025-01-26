@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
-import { useSpring, animated } from "@react-spring/web";
-import { Button } from "@/components";
-import { StepProgressProps } from "./stepProgress.type";
-import clsx from "clsx";
+import { useState, useRef } from 'react';
+import { useSpring, animated } from '@react-spring/web';
+import { Button } from '@/components';
+import { StepProgressProps } from './stepProgress.type';
+import clsx from 'clsx';
 
 export default function StepProgress({
   steps,
-  backwardBtnLabel = "Previous",
-  forwardBtnLabel = "Next",
-  finalStepBtnLabel = "Proceed",
-  direction = "horizontal",
-  size = "regular",
+  backwardBtnLabel = 'Previous',
+  forwardBtnLabel = 'Next',
+  finalStepBtnLabel = 'Proceed',
+  direction = 'horizontal',
+  size = 'regular',
   onForward,
   onFinalStep,
   ...restProps
@@ -22,21 +22,21 @@ export default function StepProgress({
   const stepItemsLength = steps.length;
 
   const stepProgressContainerStyle = clsx(
-    "w-full flex flex-col items-center justify-between",
+    'w-full flex flex-col items-center justify-between',
     restProps.className
   );
 
   const stepProgressTabsContainerStyle = clsx(
     `relative flex w-full overflow-hidden overflow-x-auto bg-slate-200 dark:bg-slate-700 `,
     {
-      "rounded-full": direction === "horizontal",
-      "rounded-lg": direction === "vertical",
+      'rounded-full': direction === 'horizontal',
+      'rounded-lg': direction === 'vertical',
     }
   );
 
   const stepProgressTabsStyle = clsx(`flex w-full`, {
-    "flex-row": direction === "horizontal",
-    "flex-col": direction === "vertical",
+    'flex-row': direction === 'horizontal',
+    'flex-col': direction === 'vertical',
   });
 
   const handleForwardStep = () => {
@@ -93,22 +93,22 @@ export default function StepProgress({
         <animated.div
           className="bg-slate-100 dark:bg-slate-800 border-b-4 border-sky-600 absolute z-0"
           style={{
-            width: direction === "horizontal" ? progressBarWidth : "100%",
-            height: direction === "vertical" ? progressBarHeight : "100%",
+            width: direction === 'horizontal' ? progressBarWidth : '100%',
+            height: direction === 'vertical' ? progressBarHeight : '100%',
           }}
         ></animated.div>
         <div className={stepProgressTabsStyle}>
           {steps.map((step, index) => {
             const stepProgressInnerStyles = clsx(
-              "flex justify-stretch w-full overflow-hidden z-10",
+              'flex justify-stretch w-full overflow-hidden z-10',
               {
-                "dark:text-slate-200": index + 1 <= currentStep,
-                "text-slate-600 dark:text-slate-400": index + 1 > currentStep,
+                'dark:text-slate-200': index + 1 <= currentStep,
+                'text-slate-600 dark:text-slate-400': index + 1 > currentStep,
               },
               {
-                "text-md": size === "large",
-                "text-sm": size === "regular",
-                "text-xs": size === "small",
+                'text-md': size === 'large',
+                'text-sm': size === 'regular',
+                'text-xs': size === 'small',
               }
             );
 

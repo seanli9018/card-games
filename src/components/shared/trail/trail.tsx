@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Children } from "react";
-import { useTrail, animated } from "@react-spring/web";
-import { TrailProps } from "./trail.type";
+import { Children } from 'react';
+import { useTrail, animated } from '@react-spring/web';
+import { TrailProps } from './trail.type';
 
 export default function Trail({
   open,

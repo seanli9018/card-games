@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import omit from "lodash/omit";
-import { Tag, Button } from "..";
-import { TileProps } from "./tile.type";
+import omit from 'lodash/omit';
+import { Tag, Button } from '..';
+import { TileProps } from './tile.type';
 
 export default function Tile({
   title,
@@ -35,7 +35,7 @@ export default function Tile({
       </div>
       <div className="mt-4">
         {cta?.children ? (
-          <Button size="small" variant="primary" {...omit(cta, "children")}>
+          <Button size="small" variant="primary" {...omit(cta, 'children')}>
             {cta.children}
           </Button>
         ) : null}

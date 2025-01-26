@@ -1,6 +1,6 @@
-"use client";
-import { useState } from "react";
-import { useSpring, animated } from "@react-spring/web";
+'use client';
+import { useState } from 'react';
+import { useSpring, animated } from '@react-spring/web';
 
 const Test = () => {
   const [flipped, setFlipped] = useState(false);
@@ -18,18 +18,18 @@ const Test = () => {
         width: 300,
         height: 200,
         perspective: 1000,
-        position: "relative",
+        position: 'relative',
       }}
     >
       <animated.div
         style={{
           opacity: opacity.to((o) => 1 - o),
           transform,
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          background: "green",
-          backfaceVisibility: "hidden",
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          background: 'green',
+          backfaceVisibility: 'hidden',
         }}
       >
         Front Side
@@ -37,11 +37,11 @@ const Test = () => {
       <animated.div
         style={{
           opacity,
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          background: "red",
-          backfaceVisibility: "hidden",
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          background: 'red',
+          backfaceVisibility: 'hidden',
           transform: transform.to((t) => `${t} rotateY(180deg)`),
         }}
       >

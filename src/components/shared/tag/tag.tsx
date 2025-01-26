@@ -1,4 +1,4 @@
-import { TagProps } from "./tag.type";
+import { TagProps } from './tag.type';
 
 export default function Tile({ label }: TagProps) {
   return (

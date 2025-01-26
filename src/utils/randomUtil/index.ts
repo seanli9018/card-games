@@ -1,1 +1,1 @@
-export * from "./randomUtil";
+export * from './randomUtil';

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect, isValidElement } from "react";
-import clsx from "clsx";
-import type { InputProps } from "./input.type";
+import { useState, useEffect, isValidElement } from 'react';
+import clsx from 'clsx';
+import type { InputProps } from './input.type';
 
 export default function Input({
   leadingIcon,
@@ -10,7 +10,7 @@ export default function Input({
   inputProps,
   error,
   resetValue,
-  defaultValue = "",
+  defaultValue = '',
   blurCommit = false,
   onBlur,
   onChange,
@@ -31,7 +31,7 @@ export default function Input({
   const inputTrailingIcon = isValidElement(trailingIcon) ? trailingIcon : null;
   const inputError = isValidElement(error) ? (
     error
-  ) : typeof error === "string" ? (
+  ) : typeof error === 'string' ? (
     <span className="text-xs mt-1 text-red-600 dark:text-red-200">{error}</span>
   ) : null;
 
@@ -45,7 +45,7 @@ export default function Input({
   };
 
   const handleInputKeydown = (evt: React.KeyboardEvent) => {
-    if (evt.key === "Enter" || evt.code === "Enter") {
+    if (evt.key === 'Enter' || evt.code === 'Enter') {
       handleChangeCommit();
     }
   };
@@ -65,7 +65,7 @@ export default function Input({
   useEffect(() => {
     if (!resetValue) return;
 
-    setInputValue("");
+    setInputValue('');
   }, [resetValue]);
 
   return (

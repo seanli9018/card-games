@@ -1,5 +1,5 @@
-import type { ReactElement } from "react";
-import type { AbsolutePositionType } from "@/types";
+import type { ReactElement } from 'react';
+import type { AbsolutePositionType } from '@/types';
 
 export interface DropdownContainerProps {
   open?: boolean;

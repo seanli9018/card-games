@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, isValidElement } from "react";
-import Typing from "../typing";
-import type { GameTransitionProps } from "./gameTransition.type";
+import { useState, useEffect, useRef, isValidElement } from 'react';
+import Typing from '../typing';
+import type { GameTransitionProps } from './gameTransition.type';
 
 export default function GameTransition({
   intro,
@@ -61,7 +61,7 @@ export default function GameTransition({
     introElement = intro;
   }
 
-  if (typeof intro === "string") {
+  if (typeof intro === 'string') {
     introElement = (
       <div className="text-4xl font-bold">
         <Typing text={intro} fadeInOut reverse={reverse} />

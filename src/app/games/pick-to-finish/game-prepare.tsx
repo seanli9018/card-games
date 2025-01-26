@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 import {
   SubHeader,
   ListCreator,
@@ -9,20 +9,20 @@ import {
   StepProgress,
   type AddNotificationCBFunction,
   type ListValueWithLinearStyle,
-} from "@/components";
-import PickToFinish from "./pick-to-finish";
-import { useBreakpointRange } from "@/hooks";
-import LogoThumbnail from "../../../../public/logo_thumbnail.jpg";
+} from '@/components';
+import PickToFinish from './pick-to-finish';
+import { useBreakpointRange } from '@/hooks';
+import LogoThumbnail from '../../../../public/logo_thumbnail.jpg';
 
 export default function GamePrepare() {
   const [userTaskList, setUserTaskList] = useState<ListValueWithLinearStyle[]>(
     []
   );
   const [cardCount, setCardCount] = useState(0);
-  const [cardCountError, setCardCountError] = useState("");
+  const [cardCountError, setCardCountError] = useState('');
   const [subHeaderHeight, setSubHeaderHeight] = useState(0);
   const [isGameReady, setIsGameReady] = useState(false);
-  const isMdAndAbove = useBreakpointRange("md");
+  const isMdAndAbove = useBreakpointRange('md');
 
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
 
@@ -35,8 +35,8 @@ export default function GamePrepare() {
       case 1: {
         if (userTaskList.length < 2) {
           addNotificationRef.current?.({
-            title: "Warning",
-            message: "At least 2 activities are needed to move forward.",
+            title: 'Warning',
+            message: 'At least 2 activities are needed to move forward.',
             imageSrc: LogoThumbnail,
           });
           // prevent moving forward.
@@ -48,8 +48,8 @@ export default function GamePrepare() {
       case 2: {
         if (cardCount <= 0 || cardCount > 20) {
           addNotificationRef.current?.({
-            title: "Warning",
-            message: "Between 1 and 20 cards are allowed.",
+            title: 'Warning',
+            message: 'Between 1 and 20 cards are allowed.',
             imageSrc: LogoThumbnail,
           });
           // prevent moving forward.
@@ -74,12 +74,12 @@ export default function GamePrepare() {
     const isInputNumber = inputRegExp.test(value);
 
     if (!isInputNumber) {
-      setCardCountError("Enter a number between 1 - 20.");
+      setCardCountError('Enter a number between 1 - 20.');
       return false;
     }
 
     if (isInputNumber) {
-      setCardCountError("");
+      setCardCountError('');
     }
 
     return true;
@@ -92,7 +92,7 @@ export default function GamePrepare() {
 
   // get header height.
   useEffect(() => {
-    const subHeaderDOM = document.getElementById("yc-game-sub-header");
+    const subHeaderDOM = document.getElementById('yc-game-sub-header');
     if (!subHeaderDOM) return;
 
     setSubHeaderHeight(subHeaderDOM.offsetHeight);
@@ -113,7 +113,7 @@ export default function GamePrepare() {
           <StepProgress
             steps={[
               {
-                label: "Create your own list",
+                label: 'Create your own list',
                 children: (
                   <section className="flex flex-col justify-center flex-1 max-w-lg w-full mx-auto px-2">
                     <ListCreator
@@ -125,7 +125,7 @@ export default function GamePrepare() {
                 ),
               },
               {
-                label: "How many cards to generate?",
+                label: 'How many cards to generate?',
                 children: (
                   <section className="flex flex-col justify-center flex-1 max-w-2xl w-full mx-auto px-2">
                     <div className="flex flex-row flex-wrap justify-center items-center gap-2">
@@ -149,7 +149,7 @@ export default function GamePrepare() {
                             />
                           </svg>
                         }
-                        defaultValue={cardCount ? cardCount.toString() : ""}
+                        defaultValue={cardCount ? cardCount.toString() : ''}
                         onChange={handleCardCountInputChange}
                         valueValidator={handleValueValidation}
                         error={cardCountError}
@@ -160,7 +160,7 @@ export default function GamePrepare() {
                 ),
               },
               {
-                label: "Ready to start?",
+                label: 'Ready to start?',
                 children: (
                   <section className="flex flex-col justify-center gap-4 max-w-md mx-auto px-2">
                     <h2 className="text-xl font-semibold">Ready to start?</h2>
@@ -181,7 +181,7 @@ export default function GamePrepare() {
             ]}
             className="p-4"
             style={{ height: `calc(100vh - ${subHeaderHeight}px)` }}
-            direction={isMdAndAbove ? "horizontal" : "vertical"}
+            direction={isMdAndAbove ? 'horizontal' : 'vertical'}
             onForward={handleForward}
             onFinalStep={handleFinalStep}
           />

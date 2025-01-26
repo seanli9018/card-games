@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Footer, Header, Button } from "@/components";
-import { Trail } from "@/components/shared";
-import { useBreakpointRange } from "@/hooks";
+import { useState, useEffect } from 'react';
+import { Footer, Header, Button } from '@/components';
+import { Trail } from '@/components/shared';
+import { useBreakpointRange } from '@/hooks';
 
 export default function Home() {
   const [animateText, setAnimateText] = useState(false);
-  const isMdAndAbove = useBreakpointRange("md");
+  const isMdAndAbove = useBreakpointRange('md');
 
   useEffect(() => {
     setAnimateText(true);
   }, []);
 
   const onMouseOnlyHandler = (evt: React.PointerEvent) => {
-    if (evt?.type === "pointerenter" && evt?.pointerType !== "touch") {
+    if (evt?.type === 'pointerenter' && evt?.pointerType !== 'touch') {
       setAnimateText(false);
     }
 
-    if (evt?.type === "pointerleave" && evt?.pointerType !== "touch") {
+    if (evt?.type === 'pointerleave' && evt?.pointerType !== 'touch') {
       setAnimateText(true);
     }
   };

@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
-import HeaderProfile from "../headerProfile";
-import LogoThumbnail from "../../../public/logo_thumbnail.jpg";
+import Link from 'next/link';
+import Image from 'next/image';
+import HeaderProfile from '../headerProfile';
+import LogoThumbnail from '../../../public/logo_thumbnail.jpg';
 
 export default function Header() {
   return (

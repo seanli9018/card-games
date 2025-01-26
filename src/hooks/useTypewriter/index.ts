@@ -1,1 +1,1 @@
-export { default } from "./useTypewriter";
+export { default } from './useTypewriter';

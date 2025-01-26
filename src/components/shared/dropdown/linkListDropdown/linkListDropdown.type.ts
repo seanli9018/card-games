@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactElement } from "react";
-import { AbsolutePositionType } from "@/types";
+import type { ComponentPropsWithoutRef, ReactElement } from 'react';
+import { AbsolutePositionType } from '@/types';
 
-export interface LinkItem extends Omit<ComponentPropsWithoutRef<"a">, "href"> {
+export interface LinkItem extends Omit<ComponentPropsWithoutRef<'a'>, 'href'> {
   label: string;
   href: string;
 }

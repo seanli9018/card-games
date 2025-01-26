@@ -1,6 +1,6 @@
-import Link from "next/link";
-import HeaderProfile from "../headerProfile";
-import type { SubHeaderProps } from "./subHeader.type";
+import Link from 'next/link';
+import HeaderProfile from '../headerProfile';
+import type { SubHeaderProps } from './subHeader.type';
 
 export default function SubHeader({ title }: SubHeaderProps) {
   return (

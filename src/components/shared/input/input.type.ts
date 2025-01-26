@@ -1,10 +1,10 @@
-import type { ReactElement, ComponentPropsWithoutRef, FocusEvent } from "react";
+import type { ReactElement, ComponentPropsWithoutRef, FocusEvent } from 'react';
 
 export interface InputProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "onChange" | "onBlur"> {
+  extends Omit<ComponentPropsWithoutRef<'div'>, 'onChange' | 'onBlur'> {
   leadingIcon?: ReactElement;
   trailingIcon?: ReactElement;
-  inputProps?: ComponentPropsWithoutRef<"input">;
+  inputProps?: ComponentPropsWithoutRef<'input'>;
   resetValue?: boolean;
   defaultValue?: string;
   error?: string | ReactElement;

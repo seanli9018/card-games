@@ -1,17 +1,16 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 import {
-  Card,
+  CardsFlex,
   SubHeader,
   ListCreator,
   NotificationHub,
   GameTransition,
   type AddNotificationCBFunction,
   type ListValueWithLinearStyle,
-} from "@/components";
-import { oneLinerShuffleArray } from "@/utils";
-import LogoThumbnail from "../../../../public/logo_thumbnail.jpg";
+} from '@/components';
+import LogoThumbnail from '../../../../public/logo_thumbnail.jpg';
 
 function CardContent({ text }: { text: string }) {
   return (
@@ -22,7 +21,7 @@ function CardContent({ text }: { text: string }) {
 }
 
 export default function DIYShuffleDeck() {
-  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCard, setSelectedCard] = useState('');
   const [userTaskList, setUserTaskList] = useState<ListValueWithLinearStyle[]>(
     []
   );
@@ -32,8 +31,8 @@ export default function DIYShuffleDeck() {
   const handleListCreatorCommit = (taskList: ListValueWithLinearStyle[]) => {
     if (taskList.length <= 2) {
       addNotificationRef.current?.({
-        title: "Notice",
-        message: "At least 3 activities are needed to start.",
+        title: 'Notice',
+        message: 'At least 3 activities are needed to start.',
         imageSrc: LogoThumbnail,
       });
       return;
@@ -46,36 +45,25 @@ export default function DIYShuffleDeck() {
     setSelectedCard(id);
   };
 
-  const cards =
-    userTaskList.length >= 3 &&
-    oneLinerShuffleArray(userTaskList).map((taskItem, index) => {
-      const displayStyle =
-        selectedCard && selectedCard !== `card-${index}` ? "none" : "block";
-      return (
-        <li
-          key={`${index}-${taskItem.value}`}
-          className="flex-1 w-full block"
-          style={{
-            display: displayStyle,
-          }}
-        >
-          <Card
-            id={`card-${index}`}
-            content={<CardContent text={taskItem.value} />}
-            className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl"
-            onSelectCommit={handleCardSelect}
-          />
-        </li>
-      );
-    });
+  const cardsProps =
+    userTaskList.length >= 3
+      ? userTaskList.map((taskItem, index) => {
+          return {
+            id: `card-${index}`,
+            content: <CardContent text={taskItem.value} />,
+            className: 'md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl',
+            onSelectCommit: handleCardSelect,
+          };
+        })
+      : [];
 
   return (
     <>
       <SubHeader
         title={
           userTaskList.length < 3
-            ? "Create Your Activity List"
-            : "DIY Shuffle Deck"
+            ? 'Create Your Activity List'
+            : 'DIY Shuffle Deck'
         }
       />
       {
@@ -112,9 +100,12 @@ export default function DIYShuffleDeck() {
                   Now, it&apos;s Your Choice...
                 </h2>
               ) : null}
-              <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
-                {cards}
-              </ul>
+              <CardsFlex
+                cards={cardsProps}
+                pickedCardId={selectedCard}
+                revealMode="single"
+                shuffleMode="fisherYates"
+              />
             </main>
           </GameTransition>
         )

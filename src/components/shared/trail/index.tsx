@@ -1,1 +1,1 @@
-export { default } from "./trail";
+export { default } from './trail';

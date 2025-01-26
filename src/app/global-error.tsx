@@ -1,6 +1,6 @@
-"use client"; // Error boundaries must be Client Components
-import { useEffect } from "react";
-import { logError } from "@/utils";
+'use client'; // Error boundaries must be Client Components
+import { useEffect } from 'react';
+import { logError } from '@/utils';
 
 export default function GlobalError({
   error,
@@ -11,7 +11,7 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    logError("Global error boundary, please see error details below.", error);
+    logError('Global error boundary, please see error details below.', error);
   }, [error]);
 
   return (

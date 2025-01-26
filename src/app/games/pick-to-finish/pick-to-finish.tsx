@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { Card, GameTransition } from "@/components";
-import { oneLinerShuffleArray } from "@/utils";
-import { PickToFinishProps } from "./pick-to-finish.type";
+import { useMemo } from 'react';
+import { Card, GameTransition } from '@/components';
+import { oneLinerShuffleArray } from '@/utils';
+import { PickToFinishProps } from './pick-to-finish.type';
 
 function CardContent({ text }: { text: string }) {
   return (
@@ -32,7 +32,7 @@ export default function PickToFinish({
     const emptyValueArray = Array.from(
       { length: cardCount - taskList.length },
       () => ({
-        value: "",
+        value: '',
       })
     );
 

@@ -1,1 +1,1 @@
-export { default as ReactQueryClientProvider } from "./queryClientProvider";
+export { default as ReactQueryClientProvider } from './queryClientProvider';

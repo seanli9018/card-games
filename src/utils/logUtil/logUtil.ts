@@ -1,9 +1,9 @@
-import * as constants from "../constants";
+import * as constants from '../constants';
 
 export const logError = (
-  message: string = "no error message.",
+  message: string = 'no error message.',
   error?: Error
 ) => {
-  const errorObj = error ? JSON.stringify(error) : "";
+  const errorObj = error ? JSON.stringify(error) : '';
   console.error(`${constants.LOG_PREFIX} ${message}`, errorObj);
 };

@@ -1,23 +1,23 @@
-import type { MouseEvent } from "react";
-import Image from "next/image";
-import clsx from "clsx";
-import Button from "../button";
-import type { NotificationProps } from "./notification.type";
+import type { MouseEvent } from 'react';
+import Image from 'next/image';
+import clsx from 'clsx';
+import Button from '../button';
+import type { NotificationProps } from './notification.type';
 
 export default function Notification({
-  title = "",
-  message = "",
+  title = '',
+  message = '',
   imageSrc,
-  variant = "info",
+  variant = 'info',
   onClose,
   ...restProps
 }: NotificationProps) {
   const notificationContainer = clsx(
-    "border shadow rounded-md p-2 max-w-sm w-full mx-auto",
+    'border shadow rounded-md p-2 max-w-sm w-full mx-auto',
     {
-      "border-blue-300 bg-slate-200 dark:bg-slate-800": variant === "info",
-      "border-orange-300 bg-orange-100 dark:bg-orange-700": variant === "warn",
-      "border-rose-300 bg-rose-100 dark:bg-rose-700": variant === "error",
+      'border-blue-300 bg-slate-200 dark:bg-slate-800': variant === 'info',
+      'border-orange-300 bg-orange-100 dark:bg-orange-700': variant === 'warn',
+      'border-rose-300 bg-rose-100 dark:bg-rose-700': variant === 'error',
     },
     restProps.className
   );

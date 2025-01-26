@@ -1,1 +1,1 @@
-export * from "./logUtil";
+export * from './logUtil';

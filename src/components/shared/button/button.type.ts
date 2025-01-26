@@ -1,12 +1,12 @@
-import type { ReactElement, ComponentPropsWithoutRef } from "react";
+import type { ReactElement, ComponentPropsWithoutRef } from 'react';
 import type {
   VariantType,
   ShapeType,
   SizeType,
   Color,
   WidthType,
-} from "@/types";
-import type { LinkProps } from "next/link";
+} from '@/types';
+import type { LinkProps } from 'next/link';
 
 export interface SharedButtonType {
   children: ReactElement | string;
@@ -20,21 +20,21 @@ export interface SharedButtonType {
 
 export interface ButtonProps
   extends Omit<
-      ComponentPropsWithoutRef<"button">,
-      "children" | "color" | "disabled"
+      ComponentPropsWithoutRef<'button'>,
+      'children' | 'color' | 'disabled'
     >,
     SharedButtonType {
-  buttonType?: "button";
+  buttonType?: 'button';
 }
 
 export interface LinkButtonProps
   extends LinkProps,
     SharedButtonType,
     Omit<
-      ComponentPropsWithoutRef<"a">,
-      "children" | "color" | keyof LinkProps
+      ComponentPropsWithoutRef<'a'>,
+      'children' | 'color' | keyof LinkProps
     > {
-  buttonType?: "link";
+  buttonType?: 'link';
 }
 
 export type ButtonType = ButtonProps | LinkButtonProps;

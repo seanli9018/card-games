@@ -1,10 +1,10 @@
-import { Fragment, isValidElement } from "react";
-import DropdownContainer from "../dropdownContainer";
+import { Fragment, isValidElement } from 'react';
+import DropdownContainer from '../dropdownContainer';
 import {
   LinkGroupType,
   LinkListDropdownProps,
   LinkItem,
-} from "./linkListDropdown.type";
+} from './linkListDropdown.type';
 
 function LinkGroup({ linkGroup }: { linkGroup: LinkGroupType }) {
   const linkGroupElements = linkGroup.map((item, index) => {
@@ -31,7 +31,7 @@ export default function LinkListDropdown({
   title,
   linkGroups,
   children,
-  position = "center",
+  position = 'center',
   onClose,
 }: LinkListDropdownProps) {
   const linkSections = linkGroups.map((linkGroup, index) => {

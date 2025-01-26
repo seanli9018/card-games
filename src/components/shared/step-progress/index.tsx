@@ -1,1 +1,1 @@
-export { default } from "./stepProgress";
+export { default } from './stepProgress';

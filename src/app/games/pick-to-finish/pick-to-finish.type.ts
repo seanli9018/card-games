@@ -1,4 +1,4 @@
-import { ListValueWithLinearStyle } from "@/components";
+import { ListValueWithLinearStyle } from '@/components';
 
 export interface PickToFinishProps {
   taskList: ListValueWithLinearStyle[];

@@ -1,10 +1,10 @@
-export type StorageType = "localStorage" | "sessionStorage";
+export type StorageType = 'localStorage' | 'sessionStorage';
 
 export const setStorage = (
   key: string,
   value: string,
   expirationInMinutes: number,
-  storageType: StorageType = "localStorage"
+  storageType: StorageType = 'localStorage'
 ) => {
   try {
     const storage = window[storageType];
@@ -19,15 +19,15 @@ export const setStorage = (
 
     storage.setItem(key, JSON.stringify(item));
   } catch (error) {
-    console.error("Error setting storage:", error);
+    console.error('Error setting storage:', error);
   }
 };
 
 export const getStorage = (
   key: string,
-  storageType: StorageType = "localStorage"
+  storageType: StorageType = 'localStorage'
 ) => {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
 
   try {
     const storage = window[storageType];
@@ -44,21 +44,21 @@ export const getStorage = (
 
     return item.value;
   } catch (error) {
-    console.error("Error getting storage:", error);
+    console.error('Error getting storage:', error);
     return null;
   }
 };
 
 export const removeStorage = (
   key: string,
-  storageType: StorageType = "localStorage"
+  storageType: StorageType = 'localStorage'
 ) => {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
 
   try {
     const storage = window[storageType];
     storage.removeItem(key);
   } catch (error) {
-    console.error("Error removing storage:", error);
+    console.error('Error removing storage:', error);
   }
 };

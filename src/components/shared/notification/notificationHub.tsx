@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useMemo, useEffect } from "react";
-import { useTransition, animated } from "@react-spring/web";
-import clsx from "clsx";
-import Notification from "./notification";
+import { useState, useMemo, useEffect } from 'react';
+import { useTransition, animated } from '@react-spring/web';
+import clsx from 'clsx';
+import Notification from './notification';
 import {
   NotificationHubProps,
   NotificationItemData,
-} from "./notificationHub.type";
+} from './notificationHub.type';
 
 let id = 0;
 export default function NotificationHub({
   timeout = 3000,
-  variant = "info",
+  variant = 'info',
   addNotification,
   ...restProps
 }: NotificationHubProps) {
@@ -25,22 +25,22 @@ export default function NotificationHub({
   const notificationCancelMap = useMemo(() => new WeakMap(), []);
 
   const notificationHubContainerStyle = clsx(
-    "fixed top-14 right-5 z-50",
+    'fixed top-14 right-5 z-50',
     restProps.className
   );
 
   const linearGradientStyle =
-    variant === "warn"
-      ? "linear-gradient(130deg, #ca8a04, #facc15)"
-      : variant === "error"
-      ? "linear-gradient(130deg, #dc2626, #f87171)"
-      : "linear-gradient(130deg, #00b4e6, #00f0e0)";
+    variant === 'warn'
+      ? 'linear-gradient(130deg, #ca8a04, #facc15)'
+      : variant === 'error'
+        ? 'linear-gradient(130deg, #dc2626, #f87171)'
+        : 'linear-gradient(130deg, #00b4e6, #00f0e0)';
 
   const transitions = useTransition(notificationList, {
     from: {
       opacity: 0,
       right: -300,
-      life: "100%",
+      life: '100%',
     },
     keys: (item) => item.key,
     enter: (item) => async (next, cancel) => {
@@ -49,7 +49,7 @@ export default function NotificationHub({
         opacity: 1,
         right: 0,
       });
-      await next({ life: "0%" });
+      await next({ life: '0%' });
     },
     leave: (item) => ({
       right: -(notificationRefMap.get(item).offsetWidth + 20),
@@ -63,7 +63,7 @@ export default function NotificationHub({
       );
     },
     config: (item, index, phase) => (key) =>
-      phase === "enter" && key === "life"
+      phase === 'enter' && key === 'life'
         ? { duration: timeout }
         : { tension: 125, friction: 20, precision: 0.1 },
   });
@@ -96,7 +96,7 @@ export default function NotificationHub({
             imageSrc={item.imageSrc}
             variant={variant}
             onClose={() => {
-              if (notificationCancelMap.has(item) && life.get() !== "0%")
+              if (notificationCancelMap.has(item) && life.get() !== '0%')
                 notificationCancelMap.get(item)();
             }}
           />

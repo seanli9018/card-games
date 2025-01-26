@@ -1,4 +1,4 @@
-import GamePrepare from "./game-prepare";
+import GamePrepare from './game-prepare';
 
 export default function Page() {
   return <GamePrepare />;
