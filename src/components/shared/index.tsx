@@ -19,5 +19,6 @@ export { DropdownContainer, LinkListDropdown } from './dropdown';
 export { default as StepProgress } from './step-progress';
 
 export { CardsFlex } from './cards-layout';
+export type { CardsLayoutProps } from './cards-layout';
 
 export { default as Test } from './test';

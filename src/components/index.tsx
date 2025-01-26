@@ -26,4 +26,5 @@ export type {
   AddNotificationCBFunction,
   NotificationItemData,
   CardProps,
+  CardsLayoutProps,
 } from './shared';

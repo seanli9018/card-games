@@ -8,7 +8,7 @@ export type AbsolutePositionType = 'left' | 'center' | 'right';
 export type NotificationVariantType = 'info' | 'warn' | 'error';
 export type DirectionType = 'horizontal' | 'vertical';
 export type revealMode = 'single' | 'multiple';
-export type shuffleMode = 'fisherYates' | 'oneLiner';
+export type shuffleMode = 'fisherYates' | 'oneLiner' | 'none';
 
 export type UserType = {
   username: string;

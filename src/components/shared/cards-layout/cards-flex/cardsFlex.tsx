@@ -1,19 +1,21 @@
 import { Card } from '../..';
 import { oneLinerShuffleArray, fisherYatesShuffleArray } from '@/utils';
-import type { CardsFlexProps } from './cardsFlex.type';
+import type { CardsLayoutProps } from '../cardsLayout.type';
 
 export default function CardsFlex({
   cards,
   pickedCardId,
   revealMode = 'single',
-  shuffleMode = 'oneLiner',
-}: CardsFlexProps) {
+  shuffleMode = 'fisherYates',
+}: CardsLayoutProps) {
   if (!cards || !cards.length) return null;
 
   const shuffledCard =
-    shuffleMode === 'oneLiner'
-      ? oneLinerShuffleArray(cards)
-      : fisherYatesShuffleArray(cards);
+    shuffleMode === 'fisherYates'
+      ? fisherYatesShuffleArray(cards)
+      : shuffleMode === 'oneLiner'
+        ? oneLinerShuffleArray(cards)
+        : cards;
 
   const cardsElement = shuffledCard.map((cardProp, index) => {
     //Once player picked one card, other cards will be hidden under single reveal mode.
@@ -21,7 +23,6 @@ export default function CardsFlex({
       pickedCardId && revealMode === 'single' && pickedCardId !== cardProp.id
         ? 'none'
         : 'block';
-
     return (
       <li
         key={`${index}-${cardProp.id}`}

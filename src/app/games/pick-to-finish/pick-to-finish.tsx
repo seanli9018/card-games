@@ -1,8 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Card, GameTransition } from '@/components';
-import { oneLinerShuffleArray } from '@/utils';
+import { GameTransition, CardsFlex } from '@/components';
 import { PickToFinishProps } from './pick-to-finish.type';
 
 function CardContent({ text }: { text: string }) {
@@ -20,7 +19,7 @@ export default function PickToFinish({
   const cardList = useMemo(() => {
     // if we have enough tasks to generate cards.
     if (taskList.length >= cardCount) {
-      return oneLinerShuffleArray(taskList).slice(
+      return taskList.slice(
         0,
         taskList.length - cardCount
           ? -(taskList.length - cardCount)
@@ -36,26 +35,19 @@ export default function PickToFinish({
       })
     );
 
-    return oneLinerShuffleArray([...taskList, ...emptyValueArray]);
+    return [...taskList, ...emptyValueArray];
   }, [taskList, cardCount]);
 
-  const cards = cardList?.length
+  const cardsProps = cardList?.length
     ? cardList.map((taskItem, index) => {
-        return (
-          <li
-            key={`${index}-${taskItem.value}`}
-            className="flex-1 w-full block"
-          >
-            <Card
-              id={`card-${index}`}
-              content={<CardContent text={taskItem.value} />}
-              revealScale={1}
-              className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl"
-            />
-          </li>
-        );
+        return {
+          id: `card-${index}`,
+          content: <CardContent text={taskItem.value} />,
+          revealScale: 1,
+          className: 'md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl',
+        };
       })
-    : null;
+    : [];
 
   return (
     <GameTransition
@@ -68,9 +60,7 @@ export default function PickToFinish({
         <h2 className="font-semibold text-center">
           Now, pick one card at a time...
         </h2>
-        <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
-          {cards}
-        </ul>
+        <CardsFlex cards={cardsProps} revealMode="multiple" />
       </main>
     </GameTransition>
   );

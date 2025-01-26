@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Card } from "@/components";
-import activityFetcher from "./activity-fetcher";
+'use client';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { CardsFlex } from '@/components';
+import activityFetcher from './activity-fetcher';
 
 function CardContent({
   title,
@@ -30,9 +30,9 @@ function CardContent({
 }
 
 export default function BoredNoMore() {
-  const [selectedCard, setSelectedCard] = useState("");
+  const [selectedCard, setSelectedCard] = useState('');
   const { data, error } = useQuery({
-    queryKey: ["random-activity"],
+    queryKey: ['random-activity'],
     queryFn: activityFetcher,
   });
 
@@ -41,33 +41,21 @@ export default function BoredNoMore() {
     setSelectedCard(id);
   };
 
-  const cards = Array.from({ length: 6 }).map((_, index) => {
-    const displayStyle =
-      selectedCard && selectedCard !== `card-${index}` ? "none" : "block";
-    return (
-      <li
-        key={`${index}`}
-        className="flex-1 w-full block"
-        style={{
-          display: displayStyle,
-        }}
-      >
-        <Card
-          id={`card-${index}`}
-          content={
-            <CardContent
-              title={data?.description}
-              details={[
-                `Participants: ${data?.participants}`,
-                `Kid friendly: ${data?.kidFriendly ? "Yes" : "No"}`,
-              ]}
-            />
-          }
-          className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl"
-          onSelectCommit={handleCardSelect}
+  const cardsProps = Array.from({ length: 6 }).map((_, index) => {
+    return {
+      id: `card-${index}`,
+      content: (
+        <CardContent
+          title={data?.description}
+          details={[
+            `Participants: ${data?.participants}`,
+            `Kid friendly: ${data?.kidFriendly ? 'Yes' : 'No'}`,
+          ]}
         />
-      </li>
-    );
+      ),
+      className: 'md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl',
+      onSelectCommit: handleCardSelect,
+    };
   });
 
   return (
@@ -78,14 +66,18 @@ export default function BoredNoMore() {
         </h2>
       ) : null}
       {!error && data ? (
-        <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
-          {cards}
-        </ul>
-      ) : (
+        <CardsFlex
+          cards={cardsProps}
+          pickedCardId={selectedCard}
+          revealMode="single"
+          shuffleMode="none"
+        />
+      ) : null}
+      {error && !data ? (
         <div className="h-full flex justify-center items-center">
           <span>Sorry, looks like something went wrong</span>
         </div>
-      )}
+      ) : null}
     </main>
   );
 }

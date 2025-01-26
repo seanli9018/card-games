@@ -104,7 +104,6 @@ export default function DIYShuffleDeck() {
                 cards={cardsProps}
                 pickedCardId={selectedCard}
                 revealMode="single"
-                shuffleMode="fisherYates"
               />
             </main>
           </GameTransition>
