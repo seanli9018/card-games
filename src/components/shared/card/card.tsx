@@ -44,7 +44,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
   useChain([springRotateApi, springZoomApi]);
 
   const cardStyles = clsx(
-    `aspect-[5/7] cursor-pointer top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`,
+    `aspect-[5/7] cursor-pointer`,
     {
       'transition-transform duration-300 ease-in-out hover:scale-105 md:hover:scale-110':
         !revealCard,

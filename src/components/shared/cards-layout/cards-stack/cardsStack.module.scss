@@ -1,0 +1,13 @@
+.deck {
+  position: absolute;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.deck div {
+  will-change: transform;
+  touch-action: none;
+}

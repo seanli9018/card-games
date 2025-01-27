@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { SubHeader, Card } from '@/components';
+import { SubHeader, CardsFlex } from '@/components';
 import { randomInArray } from '@/utils/randomUtil';
 import { GameTransition } from '@/components';
 
@@ -21,26 +21,12 @@ export default function Page() {
     setSelectedCard(id);
   };
 
-  const cards = Array.from({ length: 2 }).map((_, index) => {
-    const displayStyle =
-      selectedCard && selectedCard !== `card-${index}` ? 'none' : 'block';
-    return (
-      <li
-        key={`${index}`}
-        className="flex-1 w-full block"
-        style={{
-          display: displayStyle,
-        }}
-      >
-        <Card
-          id={`card-${index}`}
-          content={<CardContent text={chosenItem} />}
-          className="md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-4xl"
-          onSelectCommit={handleCardSelect}
-        />
-      </li>
-    );
-  });
+  const cardsProps = Array.from({ length: 2 }).map((_, index) => ({
+    id: `card-${index}`,
+    content: <CardContent text={chosenItem} />,
+    className: 'md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-4xl',
+    onSelectCommit: handleCardSelect,
+  }));
 
   return (
     <>
@@ -56,9 +42,12 @@ export default function Page() {
               Now, it&apos;s Your Choice...
             </h2>
           ) : null}
-          <ul className="w-full flex flew-row gap-8 justify-around items-stretch flex-1 flex-wrap">
-            {cards}
-          </ul>
+          <CardsFlex
+            cards={cardsProps}
+            pickedCardId={selectedCard}
+            revealMode="single"
+            shuffleMode="none"
+          />
         </main>
       </GameTransition>
     </>

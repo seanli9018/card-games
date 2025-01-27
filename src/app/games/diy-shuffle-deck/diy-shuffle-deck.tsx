@@ -2,7 +2,9 @@
 
 import { useState, useRef } from 'react';
 import {
+  Switch,
   CardsFlex,
+  CardsStack,
   SubHeader,
   ListCreator,
   NotificationHub,
@@ -25,8 +27,13 @@ export default function DIYShuffleDeck() {
   const [userTaskList, setUserTaskList] = useState<ListValueWithLinearStyle[]>(
     []
   );
+  const [stackModeOn, setStackModeOn] = useState(false);
 
   const addNotificationRef = useRef<AddNotificationCBFunction | null>(null);
+
+  const stackModeToggler = () => {
+    setStackModeOn((prev) => !prev);
+  };
 
   const handleListCreatorCommit = (taskList: ListValueWithLinearStyle[]) => {
     if (taskList.length <= 2) {
@@ -100,10 +107,25 @@ export default function DIYShuffleDeck() {
                   Now, it&apos;s Your Choice...
                 </h2>
               ) : null}
-              <CardsFlex
-                cards={cardsProps}
-                pickedCardId={selectedCard}
-                revealMode="single"
+              {stackModeOn ? (
+                <CardsStack
+                  cards={cardsProps}
+                  pickedCardId={selectedCard}
+                  revealMode="single"
+                />
+              ) : (
+                <CardsFlex
+                  cards={cardsProps}
+                  pickedCardId={selectedCard}
+                  revealMode="single"
+                />
+              )}
+              <Switch
+                isOn={stackModeOn}
+                label="Stack Mode"
+                className="fixed bottom-4 right-4"
+                disabled={!!selectedCard}
+                onToggle={stackModeToggler}
               />
             </main>
           </GameTransition>

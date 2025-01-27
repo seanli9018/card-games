@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { GameTransition, CardsFlex } from '@/components';
+import { useState, useMemo } from 'react';
+import { GameTransition, CardsStack, CardsFlex, Switch } from '@/components';
 import { PickToFinishProps } from './pick-to-finish.type';
 
 function CardContent({ text }: { text: string }) {
@@ -16,6 +16,12 @@ export default function PickToFinish({
   taskList,
   cardCount,
 }: PickToFinishProps) {
+  const [stackModeOn, setStackModeOn] = useState(false);
+
+  const stackModeToggler = () => {
+    setStackModeOn((prev) => !prev);
+  };
+
   const cardList = useMemo(() => {
     // if we have enough tasks to generate cards.
     if (taskList.length >= cardCount) {
@@ -60,7 +66,19 @@ export default function PickToFinish({
         <h2 className="font-semibold text-center">
           Now, pick one card at a time...
         </h2>
-        <CardsFlex cards={cardsProps} revealMode="multiple" />
+        {stackModeOn ? (
+          <CardsStack cards={cardsProps} revealMode="multiple" />
+        ) : (
+          <CardsFlex cards={cardsProps} revealMode="multiple" />
+        )}
+        <Switch
+          isOn={stackModeOn}
+          label="Stack Mode"
+          className="fixed bottom-4 right-4"
+          // TODO: consider to have disabled.
+          // disabled={!!selectedCard}
+          onToggle={stackModeToggler}
+        />
       </main>
     </GameTransition>
   );

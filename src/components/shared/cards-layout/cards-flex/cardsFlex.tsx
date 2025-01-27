@@ -10,23 +10,23 @@ export default function CardsFlex({
 }: CardsLayoutProps) {
   if (!cards || !cards.length) return null;
 
-  const shuffledCard =
+  const shuffledCards =
     shuffleMode === 'fisherYates'
       ? fisherYatesShuffleArray(cards)
       : shuffleMode === 'oneLiner'
         ? oneLinerShuffleArray(cards)
         : cards;
 
-  const cardsElement = shuffledCard.map((cardProp, index) => {
+  const cardsElement = shuffledCards.map((cardProp, index) => {
     //Once player picked one card, other cards will be hidden under single reveal mode.
     const displayStyle =
       pickedCardId && revealMode === 'single' && pickedCardId !== cardProp.id
         ? 'none'
-        : 'block';
+        : 'flex';
     return (
       <li
         key={`${index}-${cardProp.id}`}
-        className="flex-1 w-full block"
+        className="flex-1 w-full flex justify-center items-center"
         style={{
           display: displayStyle,
         }}
