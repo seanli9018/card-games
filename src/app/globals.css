@@ -6,11 +6,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* enable scroll bar light dark color */
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: rgb(15 23 42);
+    --background: linear-gradient(
+      -135deg,
+      rgba(42, 47, 57, 0.4),
+      rgba(34, 41, 60, 0.8),
+      rgba(30, 39, 61, 0.6),
+      rgba(24, 33, 54, 0.8),
+      rgba(15, 23, 42, 1)
+    );
     --foreground: #ededed;
   }
 }

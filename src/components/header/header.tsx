@@ -10,7 +10,7 @@ export default function Header() {
       className="py-4 px-6 border-solid border-b border-slate-200 h-16"
     >
       <nav className="flex flex-row justify-between items-center">
-        <ul className="flex flex-row items-center text-lg font-semibold">
+        <ul className="flex flex-row items-center font-semibold">
           <li key="home" className="mr-4">
             <Link href="/">
               <Image
@@ -22,7 +22,7 @@ export default function Header() {
               />
             </Link>
           </li>
-          <li key="games">
+          <li key="games" className="">
             <Link href="/games">Games</Link>
           </li>
         </ul>
