@@ -1,5 +1,3 @@
-'use client';
-
 import { Card } from '../..';
 import { oneLinerShuffleArray, fisherYatesShuffleArray } from '@/utils';
 import type { CardsLayoutProps } from '../cardsLayout.type';

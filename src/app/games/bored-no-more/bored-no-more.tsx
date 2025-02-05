@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { CardsFlex } from '@/components';
+import { CardsFlex, CardsStack, Switch } from '@/components';
 import activityFetcher from './activity-fetcher';
 
 function CardContent({
@@ -31,10 +31,15 @@ function CardContent({
 
 export default function BoredNoMore() {
   const [selectedCard, setSelectedCard] = useState('');
+  const [stackModeOn, setStackModeOn] = useState(false);
   const { data, error } = useQuery({
     queryKey: ['random-activity'],
     queryFn: activityFetcher,
   });
+
+  const stackModeToggler = () => {
+    setStackModeOn((prev) => !prev);
+  };
 
   const handleCardSelect = (id?: string) => {
     if (!id) return;
@@ -66,12 +71,30 @@ export default function BoredNoMore() {
         </h2>
       ) : null}
       {!error && data ? (
-        <CardsFlex
-          cards={cardsProps}
-          pickedCardId={selectedCard}
-          revealMode="single"
-          shuffleMode="none"
-        />
+        <>
+          {stackModeOn ? (
+            <CardsStack
+              cards={cardsProps}
+              pickedCardId={selectedCard}
+              revealMode="single"
+              shuffleMode="none"
+            />
+          ) : (
+            <CardsFlex
+              cards={cardsProps}
+              pickedCardId={selectedCard}
+              revealMode="single"
+              shuffleMode="none"
+            />
+          )}
+          <Switch
+            isOn={stackModeOn}
+            label="Stack Mode"
+            className="fixed bottom-4 right-4 p-2 rounded-full bg-slate-200/60 p-2 dark:bg-slate-800/60"
+            disabled={!!selectedCard}
+            onToggle={stackModeToggler}
+          />
+        </>
       ) : null}
       {error && !data ? (
         <div className="h-full flex justify-center items-center">
