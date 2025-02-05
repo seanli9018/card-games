@@ -21,13 +21,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
   const springRotateApi = useSpringRef();
   const { transform } = useSpring({
     ref: springRotateApi,
-    from: {
-      transform: 'rotateY(0deg)',
-    },
-    to: {
-      transform: `rotateY(180deg)`,
-    },
-    config: { tension: 80, friction: 20 },
+    transform: `rotateY(${revealCard ? 180 : 0}deg)`,
   });
 
   // card front zooming;
@@ -75,7 +69,7 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
   });
 
   return (
-    <div {...bind()} id={id} {...restProps} ref={ref} className={cardStyles}>
+    <div id={id} {...restProps} {...bind()} ref={ref} className={cardStyles}>
       <animated.div
         className={cardFrontStyles}
         style={{
