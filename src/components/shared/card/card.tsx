@@ -2,6 +2,7 @@
 
 import { useState, forwardRef } from 'react';
 import { useSpring, animated, useSpringRef, useChain } from '@react-spring/web';
+import { useDrag } from '@use-gesture/react';
 import clsx from 'clsx';
 import type { CardProps } from './card.type';
 import sty from './card.module.scss';
@@ -64,14 +65,17 @@ export default forwardRef<HTMLDivElement, CardProps>(function Card(props, ref) {
     if (onSelectCommit) onSelectCommit(id);
   };
 
+  // reason to useDrag to track mouse movement instead of onClick event is to compatible with drag action under stack view.
+  const bind = useDrag(({ movement: [mx, my], down }) => {
+    if (down) return;
+    // when mouse up, check if its a click or drag
+    if (Math.abs(mx) < 8 && Math.abs(my) < 8) {
+      clickHandler();
+    }
+  });
+
   return (
-    <div
-      id={id}
-      {...restProps}
-      ref={ref}
-      className={cardStyles}
-      onClick={clickHandler}
-    >
+    <div {...bind()} id={id} {...restProps} ref={ref} className={cardStyles}>
       <animated.div
         className={cardFrontStyles}
         style={{

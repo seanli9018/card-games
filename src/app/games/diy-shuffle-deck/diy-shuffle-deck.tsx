@@ -123,7 +123,7 @@ export default function DIYShuffleDeck() {
               <Switch
                 isOn={stackModeOn}
                 label="Stack Mode"
-                className="fixed bottom-4 right-4"
+                className="fixed bottom-4 right-4 p-2 rounded-full bg-slate-200/60 p-2 dark:bg-slate-800/60"
                 disabled={!!selectedCard}
                 onToggle={stackModeToggler}
               />

@@ -17,6 +17,7 @@ export default function PickToFinish({
   cardCount,
 }: PickToFinishProps) {
   const [stackModeOn, setStackModeOn] = useState(false);
+  const [isAnyCardSelected, setIsAnyCardSelected] = useState(false);
 
   const stackModeToggler = () => {
     setStackModeOn((prev) => !prev);
@@ -44,6 +45,11 @@ export default function PickToFinish({
     return [...taskList, ...emptyValueArray];
   }, [taskList, cardCount]);
 
+  const handleCardSelect = (id?: string) => {
+    if (!id || isAnyCardSelected) return;
+    setIsAnyCardSelected(true);
+  };
+
   const cardsProps = cardList?.length
     ? cardList.map((taskItem, index) => {
         return {
@@ -51,6 +57,7 @@ export default function PickToFinish({
           content: <CardContent text={taskItem.value} />,
           revealScale: 1,
           className: 'md:max-h-96 md:min-w-64 max-h-64 min-w-48 text-xl',
+          onSelectCommit: handleCardSelect,
         };
       })
     : [];
@@ -74,9 +81,8 @@ export default function PickToFinish({
         <Switch
           isOn={stackModeOn}
           label="Stack Mode"
-          className="fixed bottom-4 right-4"
-          // TODO: consider to have disabled.
-          // disabled={!!selectedCard}
+          className="fixed bottom-4 right-4 p-2 rounded-full bg-slate-200/60 p-2 dark:bg-slate-800/60"
+          disabled={isAnyCardSelected}
           onToggle={stackModeToggler}
         />
       </main>
