@@ -53,6 +53,18 @@ export default function Page() {
                 buttonType: 'link',
               }}
             />
+            <Tile
+              title="Pick to Finish (Multi Devices)"
+              description={`Pick to Finish keeps you entertained till the very last card is drawn. 
+                Begin by listing multiple activities. These can be anything you choose – mini-games, challenges, or creative tasks.
+                share the link with other players so they can join in on the fun!`}
+              tags={['Multi player', 'Multi devices']}
+              cta={{
+                children: 'Play',
+                href: '/games/pick-to-finish-multi-devices',
+                buttonType: 'link',
+              }}
+            />
           </div>
         </div>
       </main>
